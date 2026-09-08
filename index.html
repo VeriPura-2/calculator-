@@ -41,20 +41,20 @@
 
         [data-theme="light"] {
             /* Light Mode */
-            --bg-body: #eef1f4; /* Softer, slightly darker background to contain the bright white */
+            --bg-body: #eef1f4; 
             --bg-calc: #ffffff;
-            --bg-panel-input: #f8f9fa; /* Off-white to reduce glare */
-            --bg-panel-result: #f1f3f5; /* Slightly deeper tone for results column */
+            --bg-panel-input: #f8f9fa; 
+            --bg-panel-result: #f1f3f5; 
             
-            --text-primary: #111111; /* Near black for maximum contrast */
-            --text-secondary: #495057; /* Darker gray for placeholders & suffixes */
-            --text-title-white: #111111; /* Darken right-panel titles */
+            --text-primary: #111111; 
+            --text-secondary: #495057; 
+            --text-title-white: #111111; 
             
-            --border-primary: #d1d7dc; /* Stronger outer borders */
+            --border-primary: #d1d7dc; 
             --border-divider: #dde2e5;
             
-            --bg-input: #ffffff; /* Inputs stay pure white to pop against the off-white panel */
-            --border-input: #b3bcc5; /* Stronger input borders */
+            --bg-input: #ffffff; 
+            --border-input: #b3bcc5; 
             --bg-input-focus: #ffffff;
             --border-input-focus: #88939e;
             --border-readonly: #adb5bd;
@@ -219,11 +219,12 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            justify-content: flex-end; /* This forces the input boxes to bottom-align perfectly */
         }
 
         label {
             font-size: 13px;
-            font-weight: 700; /* Increased to 700 for better weight */
+            font-weight: 700; 
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -242,6 +243,7 @@
             font-weight: bold;
             margin-left: 6px;
             cursor: help;
+            flex-shrink: 0; /* Prevents the info icon from squishing */
         }
 
         input[type="number"], input[type="text"], select {
@@ -251,7 +253,7 @@
             padding: 12px 15px;
             border-radius: 4px;
             font-size: 14px;
-            font-weight: 600; /* Added slight weight to input text */
+            font-weight: 600; 
             width: 100%;
             box-sizing: border-box;
             outline: none;
@@ -325,7 +327,7 @@
 
         h4 {
             font-size: 14px;
-            font-weight: 800; /* Increased weight */
+            font-weight: 800; 
             text-transform: uppercase;
             margin: 0 0 10px 0;
             letter-spacing: 0.5px;
@@ -374,7 +376,7 @@
         
         .result-block.small.divider .unit {
             font-size: 18px;
-            font-weight: 600; /* Increased unit weight */
+            font-weight: 600; 
             color: var(--text-unit);
             margin-left: 5px;
         }
@@ -498,7 +500,7 @@
             
             <div class="input-row" style="margin-bottom: 0;">
                 <div class="input-group">
-                    <label>Troubleshooting port delays & rejections <span class="info-icon" title="Time wasted clearing up holds, rejections, and customs confusion caused by label/document errors">i</span></label>
+                    <label>Troubleshooting port delays <span class="info-icon" title="Time wasted clearing up holds, rejections, and customs confusion caused by label/document errors">i</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="portDelays" placeholder="Troubleshooting time" min="0">
                         <span class="suffix">hrs</span>
@@ -549,8 +551,9 @@
                         <span class="suffix">days</span>
                     </div>
                 </div>
+                <!-- FIXED LABEL: white-space: nowrap forces single line -->
                 <div class="input-group">
-                    <label>Port holding cost / day <span class="info-icon" title="Average demurrage or holding cost incurred per day when a shipment is delayed">i</span></label>
+                    <label style="white-space: nowrap;">Port holding cost / day <span class="info-icon" title="Average demurrage or holding cost incurred per day when a shipment is delayed">i</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol">$</span>
                         <input type="number" id="portHoldingCost" placeholder="Cost" min="0">
