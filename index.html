@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veripura ROI Calculator</title>
+    <style>
+        /* Base styling matching the dark theme */
+        body {
+            background-color: #121212;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #ffffff;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .calc-wrapper {
+            background-color: #1e1e1e;
+            border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            max-width: 950px;
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .calculator-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        /* Left Panel (Inputs) */
+        .left-panel {
+            background-color: #252525;
+            padding: 40px;
+            flex: 1.2;
+            min-width: 320px;
+        }
+
+        h3 {
+            font-size: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 0;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #3a3a3a;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 14px;
+            height: 14px;
+            background-color: #666;
+            color: #1e1e1e;
+            border-radius: 50%;
+            font-size: 10px;
+            font-weight: bold;
+            margin-left: 6px;
+            cursor: help;
+        }
+
+        input[type="number"] {
+            background-color: #333333;
+            border: 1px solid #333333;
+            color: #ffffff;
+            padding: 12px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input[type="number"]::placeholder {
+            color: #888;
+        }
+
+        input[type="number"]:focus {
+            border-color: #555;
+            background-color: #3a3a3a;
+        }
+
+        /* Hide number arrows */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .input-with-prefix, .input-with-suffix {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-with-prefix .prefix {
+            position: absolute;
+            left: 15px;
+            color: #888;
+        }
+
+        .input-with-prefix input { padding-left: 30px; }
+
+        .input-with-suffix .suffix {
+            position: absolute;
+            right: 15px;
+            color: #888;
+            font-size: 13px;
+        }
+
+        .input-with-suffix input { padding-right: 45px; }
+
+        /* Right Panel (Results) */
+        .right-panel {
+            background-color: #1e1e1e;
+            padding: 40px;
+            flex: 1;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .result-block { margin-bottom: 30px; }
+
+        h4 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 0 0 10px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .wasting-title { color: #ff6b35; }
+        .saving-title { color: #7fd13b; }
+        .white-title { color: #ffffff; }
+
+        .result-value {
+            font-size: 54px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .result-value.orange { color: #ff6b35; }
+        .result-value.green { color: #7fd13b; }
+        .result-value.yellow { color: #f7c52b; }
+        .result-value.white { color: #ffffff; }
+
+        .period {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .roi-payback-row {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .result-block.small {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .result-block.small.divider {
+            border-left: 1px solid #333;
+            padding-left: 30px;
+        }
+
+        .unit {
+            font-size: 26px;
+            font-weight: 600;
+        }
+        
+        .result-block.small.divider .unit {
+            font-size: 20px;
+            font-weight: 400;
+            color: #aaaaaa;
+            margin-left: 5px;
+        }
+
+        /* Footer */
+        .footer-note {
+            font-size: 12px;
+            color: #777;
+            padding: 20px 40px;
+            background-color: #1a1a1a;
+            border-top: 1px solid #222;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .input-row { flex-direction: column; gap: 15px; }
+            .roi-payback-row { flex-direction: column; gap: 30px; }
+            .result-block.small.divider {
+                border-left: none;
+                padding-left: 0;
+                border-top: 1px solid #333;
+                padding-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="calc-wrapper">
+    <div class="calculator-container">
+        
+        <!-- Left Column: Inputs -->
+        <div class="left-panel">
+            <h3>COMPANY DETAILS</h3>
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Team size <span class="info-icon" title="Number of team members managing documentation and compliance">i</span></label>
+                    <input type="number" id="teamSize" placeholder="Team size" min="0">
+                </div>
+                <div class="input-group">
+                    <label>Average hourly rate <span class="info-icon" title="Average hourly loaded cost (including benefits) per employee">i</span></label>
+                    <div class="input-with-prefix">
+                        <span class="prefix">$</span>
+                        <input type="number" id="hourlyRate" placeholder="Hourly rate" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 20px;">HOURS WASTED PER WEEK (PER PERSON)</h3>
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Finding trade documents <span class="info-icon" title="Time spent searching emails, folders, and drives for current documents">i</span></label>
+                    <div class="input-with-suffix">
+                        <input type="number" id="findingDocs" placeholder="Search time" min="0">
+                        <span class="suffix">hrs</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Reviewing food labels <span class="info-icon" title="Time spent manually cross-referencing and reviewing label accuracy">i</span></label>
+                    <div class="input-with-suffix">
+                        <input type="number" id="reviewingLabels" placeholder="Review time" min="0">
+                        <span class="suffix">hrs</span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Correcting compliance errors <span class="info-icon" title="Time wasted fixing non-compliant paperwork or documentation mistakes">i</span></label>
+                    <div class="input-with-suffix">
+                        <input type="number" id="fixingErrors" placeholder="Error fixing" min="0">
+                        <span class="suffix">hrs</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Managing supplier comms <span class="info-icon" title="Time spent requesting missing documents and managing vendor files">i</span></label>
+                    <div class="input-with-suffix">
+                        <input type="number" id="supplierComm" placeholder="Comm time" min="0">
+                        <span class="suffix">hrs</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Added Troubleshooting Delays Input (Full Width Row) -->
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Troubleshooting port delays & rejections <span class="info-icon" title="Time wasted clearing up holds, rejections, and customs confusion caused by label/document errors">i</span></label>
+                    <div class="input-with-suffix">
+                        <input type="number" id="portDelays" placeholder="Troubleshooting time" min="0">
+                        <span class="suffix">hrs</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Right Column: Results -->
+        <div class="right-panel">
+            <div class="result-block">
+                <h4 class="wasting-title">YOU ARE CURRENTLY WASTING</h4>
+                <div class="result-value orange"><span id="wastingTotal">$0</span> <span class="period">/ year</span></div>
+            </div>
+            
+            <div class="result-block">
+                <h4 class="saving-title">YOU CAN SAVE *</h4>
+                <div class="result-value green"><span id="savingTotal">$0</span> <span class="period">/ year</span></div>
+            </div>
+            
+            <div class="roi-payback-row">
+                <div class="result-block small">
+                    <h4 class="white-title">FIRST YEAR ROI</h4>
+                    <div class="result-value yellow"><span id="roiValue">-100</span><span class="unit">%</span></div>
+                </div>
+                <div class="result-block small divider">
+                    <h4 class="white-title">PAYBACK PERIOD</h4>
+                    <div class="result-value white"><span id="paybackValue">0</span> <span class="unit">months</span></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="footer-note">
+        * Estimated savings reflect baseline efficiency gains assuming Veripura eliminates 85% of documented wasted time. ROI and Payback Period calculations are based on an assumed standard annual platform pricing of $5,000 for demonstration. For a custom calculation tailored to your specific workflow, book a demo with our sales team.
+    </div>
+</div>
+
+<script>
+    // Configurable assumptions for the calculation
+    const ASSUMED_ANNUAL_PLATFORM_COST = 5000; 
+    const EFFICIENCY_FACTOR = 0.85; // Assumes Veripura saves 85% of the inputted "wasted" time
+
+    function calculateROI() {
+        // Get Company Details
+        const teamSize = parseFloat(document.getElementById('teamSize').value) || 0;
+        const hourlyRate = parseFloat(document.getElementById('hourlyRate').value) || 0;
+
+        // Get Wasted Hours
+        const findingDocs = parseFloat(document.getElementById('findingDocs').value) || 0;
+        const reviewingLabels = parseFloat(document.getElementById('reviewingLabels').value) || 0;
+        const fixingErrors = parseFloat(document.getElementById('fixingErrors').value) || 0;
+        const supplierComm = parseFloat(document.getElementById('supplierComm').value) || 0;
+        const portDelays = parseFloat(document.getElementById('portDelays').value) || 0;
+
+        // Calculate Totals (5 items now)
+        const totalWastedHoursPerWeekPerPerson = findingDocs + reviewingLabels + fixingErrors + supplierComm + portDelays;
+        
+        // 52 weeks in a year
+        const totalWastedHoursYear = totalWastedHoursPerWeekPerPerson * teamSize * 52;
+        const wastingCostYear = totalWastedHoursYear * hourlyRate;
+        
+        // Apply efficiency factor to determine actual savings
+        const savingCostYear = wastingCostYear * EFFICIENCY_FACTOR;
+
+        // ROI & Payback calculations
+        let roi = -100;
+        let paybackMonths = 0;
+
+        if (savingCostYear > 0) {
+            roi = ((savingCostYear - ASSUMED_ANNUAL_PLATFORM_COST) / ASSUMED_ANNUAL_PLATFORM_COST) * 100;
+            paybackMonths = (ASSUMED_ANNUAL_PLATFORM_COST / savingCostYear) * 12;
+        }
+
+        // Formatting Helpers
+        const formatCurrency = (val) => '$' + Math.round(val).toLocaleString();
+        
+        // Update the DOM
+        document.getElementById('wastingTotal').innerText = formatCurrency(wastingCostYear);
+        document.getElementById('savingTotal').innerText = formatCurrency(savingCostYear);
+        
+        document.getElementById('roiValue').innerText = Math.round(roi);
+        
+        // Format Payback to 1 decimal, unless it's a whole number
+        let paybackStr = paybackMonths > 0 ? paybackMonths.toFixed(1) : "0";
+        if (paybackStr.endsWith(".0")) paybackStr = paybackStr.slice(0, -2);
+        
+        // If inputs exist but no savings generated, default display
+        if (savingCostYear === 0) paybackStr = "0";
+        
+        document.getElementById('paybackValue').innerText = paybackStr;
+    }
+
+    // Attach event listeners to all inputs to calculate in real-time
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', calculateROI);
+    });
+
+    // Run once on load to populate defaults
+    calculateROI();
+</script>
+
+</body>
+</html>
