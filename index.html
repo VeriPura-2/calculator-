@@ -88,7 +88,7 @@
             cursor: help;
         }
 
-        input[type="number"] {
+        input[type="number"], input[type="text"] {
             background-color: #333333;
             border: 1px solid #333333;
             color: #ffffff;
@@ -101,11 +101,11 @@
             transition: all 0.2s ease;
         }
 
-        input[type="number"]::placeholder {
+        input[type="number"]::placeholder, input[type="text"]::placeholder {
             color: #888;
         }
 
-        input[type="number"]:focus {
+        input[type="number"]:focus:not([readonly]), input[type="text"]:focus:not([readonly]) {
             border-color: #555;
             background-color: #3a3a3a;
         }
@@ -142,6 +142,14 @@
         }
 
         .input-with-suffix input { padding-right: 45px; }
+        
+        /* Readonly input styling */
+        .readonly-input {
+            background-color: transparent !important;
+            border: 1px dashed #444 !important;
+            color: #888 !important;
+            cursor: default;
+        }
 
         /* Right Panel (Results) */
         .right-panel {
@@ -346,6 +354,23 @@
                 </div>
             </div>
             
+            <div class="input-row" style="margin-top: 15px; padding-top: 25px; border-top: 1px solid #3a3a3a;">
+                <div class="input-group">
+                    <label>Veripura validation fee <span class="info-icon" title="Standard compliance validation cost is 0.8% of the shipment value">i</span></label>
+                    <div class="input-with-suffix">
+                        <input type="number" id="veripuraFee" placeholder="0.8" value="0.8" min="0" max="100" step="0.1">
+                        <span class="suffix">%</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label style="color:#888;">Estimated annual platform cost</label>
+                    <div class="input-with-prefix">
+                        <span class="prefix" style="color:#555;">$</span>
+                        <input type="text" id="calculatedPlatformCost" class="readonly-input" value="0" readonly>
+                    </div>
+                </div>
+            </div>
+            
         </div>
 
         <!-- Right Column: Results -->
@@ -374,13 +399,12 @@
 
     </div>
     <div class="footer-note">
-        * Estimated savings reflect baseline efficiency gains assuming Veripura eliminates 85% of documented wasted time and related shipment losses. ROI and Payback Period calculations are based on an assumed standard annual platform pricing of $5,000 for demonstration. For a custom calculation tailored to your specific workflow, book a demo with our sales team.
+        * Estimated savings reflect baseline efficiency gains assuming Veripura eliminates 85% of documented wasted time and related shipment losses. ROI and Payback Period calculations are based on the standard Veripura compliance validation cost of 0.8% of the total annual shipment value. For a custom calculation tailored to your specific workflow, book a demo with our sales team.
     </div>
 </div>
 
 <script>
     // Configurable assumptions for the calculation
-    const ASSUMED_ANNUAL_PLATFORM_COST = 5000; 
     const EFFICIENCY_FACTOR = 0.85; // Assumes Veripura saves 85% of the inputted "wasted" time and losses
 
     function calculateROI() {
@@ -414,19 +438,30 @@
         const delayedShipmentsCount = totalShipments * (percentDelayed / 100);
         const delayLossCost = delayedShipmentsCount * daysDelayed * portHoldingCost;
 
-        // --- 3. Grand Totals ---
+        // --- 3. Grand Totals for Wasted/Saved ---
         const totalWastingCostYear = laborWastingCostYear + rejectionLossCost + delayLossCost;
         
         // Apply efficiency factor to determine actual savings
         const savingCostYear = totalWastingCostYear * EFFICIENCY_FACTOR;
 
-        // --- 4. ROI & Payback calculations ---
+        // --- 4. Veripura Platform Cost ---
+        const veripuraFeePercentage = parseFloat(document.getElementById('veripuraFee').value) || 0;
+        const totalAnnualShipmentValue = totalShipments * shipmentValue;
+        const annualPlatformCost = totalAnnualShipmentValue * (veripuraFeePercentage / 100);
+        
+        // Update the visual Platform Cost field
+        document.getElementById('calculatedPlatformCost').value = Math.round(annualPlatformCost).toLocaleString();
+
+
+        // --- 5. ROI & Payback calculations ---
         let roi = -100;
         let paybackMonths = 0;
 
-        if (savingCostYear > 0) {
-            roi = ((savingCostYear - ASSUMED_ANNUAL_PLATFORM_COST) / ASSUMED_ANNUAL_PLATFORM_COST) * 100;
-            paybackMonths = (ASSUMED_ANNUAL_PLATFORM_COST / savingCostYear) * 12;
+        if (annualPlatformCost > 0) {
+            roi = ((savingCostYear - annualPlatformCost) / annualPlatformCost) * 100;
+            if (savingCostYear > 0) {
+                paybackMonths = (annualPlatformCost / savingCostYear) * 12;
+            }
         }
 
         // Formatting Helpers
@@ -436,14 +471,13 @@
         document.getElementById('wastingTotal').innerText = formatCurrency(totalWastingCostYear);
         document.getElementById('savingTotal').innerText = formatCurrency(savingCostYear);
         
-        document.getElementById('roiValue').innerText = Math.round(roi).toLocaleString();
+        // Ensure ROI doesn't show NaN if there are no inputs
+        document.getElementById('roiValue').innerText = (annualPlatformCost === 0 && savingCostYear === 0) ? "-100" : Math.round(roi).toLocaleString();
         
         // Format Payback to 1 decimal, unless it's a whole number
         let paybackStr = paybackMonths > 0 ? paybackMonths.toFixed(1) : "0";
         if (paybackStr.endsWith(".0")) paybackStr = paybackStr.slice(0, -2);
-        
-        // If inputs exist but no savings generated, default display
-        if (savingCostYear === 0) paybackStr = "0";
+        if (savingCostYear === 0 || annualPlatformCost === 0) paybackStr = "0";
         
         document.getElementById('paybackValue').innerText = paybackStr;
     }
