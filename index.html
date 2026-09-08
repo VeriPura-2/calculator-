@@ -5,28 +5,170 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Veripura ROI Calculator</title>
     <style>
-        /* Base styling matching the dark theme */
+        /* CSS Variables for Theming */
+        :root {
+            /* Dark Mode (Default) */
+            --bg-body: #121212;
+            --bg-calc: #1e1e1e;
+            --bg-left-panel: #252525;
+            --bg-right-panel: #1e1e1e;
+            
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --text-title-white: #ffffff;
+            
+            --border-primary: #333333;
+            --border-divider: #3a3a3a;
+            
+            --bg-input: #333333;
+            --border-input: #333333;
+            --bg-input-focus: #3a3a3a;
+            --border-input-focus: #555555;
+            --border-readonly: #444444;
+            
+            --bg-info: #666666;
+            --text-info: #1e1e1e;
+            
+            --bg-footer: #1a1a1a;
+            --border-footer: #222222;
+            --text-footer: #777777;
+            
+            --text-unit: #aaaaaa;
+
+            /* SVG for select arrow (White) */
+            --select-arrow: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+        }
+
+        [data-theme="light"] {
+            /* Light Mode */
+            --bg-body: #f4f7f6;
+            --bg-calc: #ffffff;
+            --bg-left-panel: #ffffff;
+            --bg-right-panel: #f9f9fa;
+            
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --text-title-white: #343a40;
+            
+            --border-primary: #e0e0e0;
+            --border-divider: #eeeeee;
+            
+            --bg-input: #ffffff;
+            --border-input: #ced4da;
+            --bg-input-focus: #ffffff;
+            --border-input-focus: #adb5bd;
+            --border-readonly: #cccccc;
+            
+            --bg-info: #dee2e6;
+            --text-info: #495057;
+            
+            --bg-footer: #f1f3f5;
+            --border-footer: #e9ecef;
+            --text-footer: #6c757d;
+            
+            --text-unit: #868e96;
+
+            /* SVG for select arrow (Dark Grey) */
+            --select-arrow: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+        }
+
+        /* Base styling */
         body {
-            background-color: #121212;
+            background-color: var(--bg-body);
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            color: #ffffff;
+            color: var(--text-primary);
             padding: 40px 20px;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
+        /* Toggle Switch Styling */
+        .header-controls {
+            width: 100%;
+            max-width: 950px;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 24px;
+            position: relative;
+            width: 44px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider {
+            background-color: #ccc;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            background-color: #fff;
+            bottom: 3px;
+            content: "";
+            height: 18px;
+            left: 3px;
+            position: absolute;
+            transition: .4s;
+            width: 18px;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #ff6b35; /* Orange to fit the brand */
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .theme-label.active {
+            color: var(--text-primary);
+        }
+
+        /* Calculator Layout */
         .calc-wrapper {
-            background-color: #1e1e1e;
+            background-color: var(--bg-calc);
             border-radius: 4px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
             max-width: 950px;
             width: 100%;
             overflow: hidden;
-            border: 1px solid #333;
+            border: 1px solid var(--border-primary);
+            transition: all 0.3s ease;
+        }
+        
+        [data-theme="dark"] .calc-wrapper {
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
         }
 
         .calculator-container {
@@ -36,10 +178,11 @@
 
         /* Left Panel (Inputs) */
         .left-panel {
-            background-color: #252525;
+            background-color: var(--bg-left-panel);
             padding: 40px;
             flex: 1.2;
             min-width: 320px;
+            transition: background-color 0.3s ease;
         }
 
         h3 {
@@ -50,7 +193,8 @@
             margin-top: 0;
             margin-bottom: 25px;
             padding-bottom: 15px;
-            border-bottom: 1px solid #3a3a3a;
+            border-bottom: 1px solid var(--border-divider);
+            color: var(--text-primary);
         }
 
         .input-row {
@@ -66,7 +210,7 @@
         }
         
         .input-group.spacer {
-            visibility: hidden; /* Used to keep flex grid aligned if a row has only 1 input */
+            visibility: hidden;
         }
 
         label {
@@ -83,8 +227,8 @@
             align-items: center;
             width: 14px;
             height: 14px;
-            background-color: #666;
-            color: #1e1e1e;
+            background-color: var(--bg-info);
+            color: var(--text-info);
             border-radius: 50%;
             font-size: 10px;
             font-weight: bold;
@@ -93,9 +237,9 @@
         }
 
         input[type="number"], input[type="text"], select {
-            background-color: #333333;
-            border: 1px solid #333333;
-            color: #ffffff;
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-input);
+            color: var(--text-primary);
             padding: 12px 15px;
             border-radius: 4px;
             font-size: 14px;
@@ -107,7 +251,7 @@
         
         select {
             appearance: none;
-            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-image: var(--select-arrow);
             background-repeat: no-repeat;
             background-position: right 15px top 50%;
             background-size: 10px auto;
@@ -115,12 +259,12 @@
         }
 
         input[type="number"]::placeholder, input[type="text"]::placeholder {
-            color: #888;
+            color: var(--text-secondary);
         }
 
         input[type="number"]:focus:not([readonly]), input[type="text"]:focus:not([readonly]), select:focus {
-            border-color: #555;
-            background-color: #3a3a3a;
+            border-color: var(--border-input-focus);
+            background-color: var(--bg-input-focus);
         }
 
         /* Hide number arrows */
@@ -142,7 +286,7 @@
         .input-with-prefix .prefix {
             position: absolute;
             left: 15px;
-            color: #888;
+            color: var(--text-secondary);
         }
 
         .input-with-prefix input { padding-left: 30px; }
@@ -150,7 +294,7 @@
         .input-with-suffix .suffix {
             position: absolute;
             right: 15px;
-            color: #888;
+            color: var(--text-secondary);
             font-size: 13px;
         }
 
@@ -159,20 +303,21 @@
         /* Readonly input styling */
         .readonly-input {
             background-color: transparent !important;
-            border: 1px dashed #444 !important;
-            color: #888 !important;
+            border: 1px dashed var(--border-readonly) !important;
+            color: var(--text-secondary) !important;
             cursor: default;
         }
 
         /* Right Panel (Results) */
         .right-panel {
-            background-color: #1e1e1e;
+            background-color: var(--bg-right-panel);
             padding: 40px;
             flex: 1;
             min-width: 320px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: background-color 0.3s ease;
         }
 
         .result-block { margin-bottom: 30px; }
@@ -187,7 +332,7 @@
 
         .wasting-title { color: #ff6b35; }
         .saving-title { color: #7fd13b; }
-        .white-title { color: #ffffff; }
+        .white-title { color: var(--text-title-white); }
 
         .result-value {
             font-size: 54px;
@@ -198,7 +343,7 @@
         .result-value.orange { color: #ff6b35; }
         .result-value.green { color: #7fd13b; }
         .result-value.yellow { color: #f7c52b; }
-        .result-value.white { color: #ffffff; }
+        .result-value.white { color: var(--text-primary); }
 
         .period {
             font-size: 22px;
@@ -216,7 +361,7 @@
         }
 
         .result-block.small.divider {
-            border-left: 1px solid #333;
+            border-left: 1px solid var(--border-divider);
             padding-left: 30px;
         }
 
@@ -228,18 +373,19 @@
         .result-block.small.divider .unit {
             font-size: 20px;
             font-weight: 400;
-            color: #aaaaaa;
+            color: var(--text-unit);
             margin-left: 5px;
         }
 
         /* Footer */
         .footer-note {
             font-size: 12px;
-            color: #777;
+            color: var(--text-footer);
             padding: 20px 40px;
-            background-color: #1a1a1a;
-            border-top: 1px solid #222;
+            background-color: var(--bg-footer);
+            border-top: 1px solid var(--border-footer);
             line-height: 1.4;
+            transition: all 0.3s ease;
         }
 
         @media (max-width: 768px) {
@@ -249,13 +395,25 @@
             .result-block.small.divider {
                 border-left: none;
                 padding-left: 0;
-                border-top: 1px solid #333;
+                border-top: 1px solid var(--border-divider);
                 padding-top: 20px;
             }
         }
     </style>
 </head>
 <body>
+
+<!-- Theme Toggle UI -->
+<div class="header-controls">
+    <div class="theme-switch-wrapper">
+        <span class="theme-label" id="label-light">Light</span>
+        <label class="theme-switch" for="theme-checkbox">
+            <input type="checkbox" id="theme-checkbox" />
+            <div class="slider round"></div>
+        </label>
+        <span class="theme-label active" id="label-dark">Dark</span>
+    </div>
+</div>
 
 <div class="calc-wrapper">
     <div class="calculator-container">
@@ -291,7 +449,6 @@
                 </div>
             </div>
 
-            <!-- MOVED FROM BELOW: Total Shipments & Value -->
             <div class="input-row">
                 <div class="input-group">
                     <label>Total shipments / year <span class="info-icon" title="Total annual volume of incoming shipments">i</span></label>
@@ -384,7 +541,7 @@
                 </div>
             </div>
             
-            <div class="input-row" style="margin-top: 15px; padding-top: 25px; border-top: 1px solid #3a3a3a;">
+            <div class="input-row" style="margin-top: 15px; padding-top: 25px; border-top: 1px solid var(--border-divider);">
                 <div class="input-group">
                     <label>Veripura validation fee <span class="info-icon" title="Standard compliance validation cost is 0.8% of the shipment value">i</span></label>
                     <div class="input-with-suffix">
@@ -393,9 +550,9 @@
                     </div>
                 </div>
                 <div class="input-group">
-                    <label style="color:#888;">Estimated annual platform cost</label>
+                    <label style="color: var(--text-secondary);">Estimated annual platform cost</label>
                     <div class="input-with-prefix">
-                        <span class="prefix currency-symbol" style="color:#555;">$</span>
+                        <span class="prefix currency-symbol"></span>
                         <input type="text" id="calculatedPlatformCost" class="readonly-input" value="0" readonly>
                     </div>
                 </div>
@@ -434,9 +591,44 @@
 </div>
 
 <script>
-    // Configurable assumptions
+    // --- THEME TOGGLE LOGIC ---
+    const themeCheckbox = document.getElementById('theme-checkbox');
+    const labelLight = document.getElementById('label-light');
+    const labelDark = document.getElementById('label-dark');
+    const currentTheme = localStorage.getItem('theme') || 'dark'; // Dark default
+
+    // Initialize theme based on local storage
+    if (currentTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeCheckbox.checked = true;
+        labelDark.classList.add('active');
+        labelLight.classList.remove('active');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        themeCheckbox.checked = false;
+        labelLight.classList.add('active');
+        labelDark.classList.remove('active');
+    }
+
+    // Toggle listener
+    themeCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            labelDark.classList.add('active');
+            labelLight.classList.remove('active');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+            labelLight.classList.add('active');
+            labelDark.classList.remove('active');
+        }
+    });
+
+
+    // --- CALCULATOR LOGIC ---
     const EFFICIENCY_FACTOR = 0.85; 
-    let currentCurrency = '$'; // Default currency
+    let currentCurrency = '$'; 
 
     // Handle currency changes
     document.getElementById('currencySelector').addEventListener('change', function(e) {
@@ -447,12 +639,11 @@
             span.innerText = currentCurrency;
         });
         
-        // Trigger recalculation to update results with the new symbol
         calculateROI();
     });
 
     function calculateROI() {
-        // --- 1. Labor Waste ---
+        // 1. Labor Waste
         const teamSize = parseFloat(document.getElementById('teamSize').value) || 0;
         const hourlyRate = parseFloat(document.getElementById('hourlyRate').value) || 0;
 
@@ -466,7 +657,7 @@
         const totalWastedHoursYear = totalWastedHoursPerWeekPerPerson * teamSize * 52;
         const laborWastingCostYear = totalWastedHoursYear * hourlyRate;
 
-        // --- 2. Shipment Losses & Delays ---
+        // 2. Shipment Losses & Delays
         const totalShipments = parseFloat(document.getElementById('totalShipments').value) || 0;
         const shipmentValue = parseFloat(document.getElementById('shipmentValue').value) || 0;
         const percentRejected = parseFloat(document.getElementById('percentRejected').value) || 0;
@@ -482,16 +673,16 @@
         const delayedShipmentsCount = totalShipments * (percentDelayed / 100);
         const delayLossCost = delayedShipmentsCount * daysDelayed * portHoldingCost;
 
-        // --- 3. Grand Totals for Wasted/Saved ---
+        // 3. Grand Totals for Wasted/Saved
         const totalWastingCostYear = laborWastingCostYear + rejectionLossCost + delayLossCost;
         const savingCostYear = totalWastingCostYear * EFFICIENCY_FACTOR;
 
-        // --- 4. Veripura Platform Cost ---
+        // 4. Veripura Platform Cost
         const veripuraFeePercentage = parseFloat(document.getElementById('veripuraFee').value) || 0;
         const totalAnnualShipmentValue = totalShipments * shipmentValue;
         const annualPlatformCost = totalAnnualShipmentValue * (veripuraFeePercentage / 100);
         
-        // --- 5. ROI & Payback calculations ---
+        // 5. ROI & Payback calculations
         let roi = -100;
         let paybackMonths = 0;
 
@@ -515,7 +706,7 @@
         // ROI
         document.getElementById('roiValue').innerText = (annualPlatformCost === 0 && savingCostYear === 0) ? "-100" : Math.round(roi).toLocaleString();
         
-        // Payback Period (Format to 1 decimal, clean trailing .0)
+        // Payback Period
         let paybackStr = paybackMonths > 0 ? paybackMonths.toFixed(1) : "0";
         if (paybackStr.endsWith(".0")) paybackStr = paybackStr.slice(0, -2);
         if (savingCostYear === 0 || annualPlatformCost === 0) paybackStr = "0";
@@ -523,8 +714,13 @@
         document.getElementById('paybackValue').innerText = paybackStr;
     }
 
+    // Set Initial Currency Symbols
+    document.querySelectorAll('.currency-symbol').forEach(span => {
+        span.innerText = currentCurrency;
+    });
+
     // Event Listeners for Live Calculation
-    document.querySelectorAll('input, select').forEach(element => {
+    document.querySelectorAll('input:not([type="checkbox"]), select').forEach(element => {
         element.addEventListener('input', calculateROI);
     });
 
