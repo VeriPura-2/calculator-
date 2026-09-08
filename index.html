@@ -15,7 +15,7 @@
             min-height: 100vh;
             margin: 0;
             color: #ffffff;
-            padding: 20px;
+            padding: 40px 20px;
             box-sizing: border-box;
         }
 
@@ -255,7 +255,7 @@
                 </div>
             </div>
 
-            <h3 style="margin-top: 20px;">HOURS WASTED PER WEEK (PER PERSON)</h3>
+            <h3 style="margin-top: 30px;">HOURS WASTED PER WEEK (PER PERSON)</h3>
             <div class="input-row">
                 <div class="input-group">
                     <label>Finding trade documents <span class="info-icon" title="Time spent searching emails, folders, and drives for current documents">i</span></label>
@@ -288,14 +288,60 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Added Troubleshooting Delays Input (Full Width Row) -->
             <div class="input-row">
                 <div class="input-group">
                     <label>Troubleshooting port delays & rejections <span class="info-icon" title="Time wasted clearing up holds, rejections, and customs confusion caused by label/document errors">i</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="portDelays" placeholder="Troubleshooting time" min="0">
                         <span class="suffix">hrs</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEW SECTION: Shipments & Delays -->
+            <h3 style="margin-top: 30px;">SHIPMENT LOSSES & DELAYS (ANNUAL)</h3>
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Total shipments / year <span class="info-icon" title="Total annual volume of incoming shipments">i</span></label>
+                    <input type="number" id="totalShipments" placeholder="Total shipments" min="0">
+                </div>
+                <div class="input-group">
+                    <label>Avg shipment value <span class="info-icon" title="The total financial value of an average single shipment">i</span></label>
+                    <div class="input-with-prefix">
+                        <span class="prefix">$</span>
+                        <input type="number" id="shipmentValue" placeholder="Value" min="0">
+                    </div>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label>% Shipments rejected <span class="info-icon" title="Percentage of shipments rejected entirely at the port (Industry avg: 2%)">i</span></label>
+                    <div class="input-with-suffix">
+                        <input type="number" id="percentRejected" placeholder="2" value="2" min="0" max="100">
+                        <span class="suffix">%</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>% Shipments delayed <span class="info-icon" title="Percentage of shipments that face port holds and delays (Industry avg: 2%)">i</span></label>
+                    <div class="input-with-suffix">
+                        <input type="number" id="percentDelayed" placeholder="2" value="2" min="0" max="100">
+                        <span class="suffix">%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Avg days of delay <span class="info-icon" title="When delayed, how many days does the shipment sit at the port on average?">i</span></label>
+                    <div class="input-with-suffix">
+                        <input type="number" id="daysDelayed" placeholder="Days" min="0">
+                        <span class="suffix">days</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Port holding cost / day <span class="info-icon" title="Average demurrage or holding cost incurred per day when a shipment is delayed">i</span></label>
+                    <div class="input-with-prefix">
+                        <span class="prefix">$</span>
+                        <input type="number" id="portHoldingCost" placeholder="Cost per day" min="0">
                     </div>
                 </div>
             </div>
@@ -328,38 +374,53 @@
 
     </div>
     <div class="footer-note">
-        * Estimated savings reflect baseline efficiency gains assuming Veripura eliminates 85% of documented wasted time. ROI and Payback Period calculations are based on an assumed standard annual platform pricing of $5,000 for demonstration. For a custom calculation tailored to your specific workflow, book a demo with our sales team.
+        * Estimated savings reflect baseline efficiency gains assuming Veripura eliminates 85% of documented wasted time and related shipment losses. ROI and Payback Period calculations are based on an assumed standard annual platform pricing of $5,000 for demonstration. For a custom calculation tailored to your specific workflow, book a demo with our sales team.
     </div>
 </div>
 
 <script>
     // Configurable assumptions for the calculation
     const ASSUMED_ANNUAL_PLATFORM_COST = 5000; 
-    const EFFICIENCY_FACTOR = 0.85; // Assumes Veripura saves 85% of the inputted "wasted" time
+    const EFFICIENCY_FACTOR = 0.85; // Assumes Veripura saves 85% of the inputted "wasted" time and losses
 
     function calculateROI() {
-        // Get Company Details
+        // --- 1. Labor Waste ---
         const teamSize = parseFloat(document.getElementById('teamSize').value) || 0;
         const hourlyRate = parseFloat(document.getElementById('hourlyRate').value) || 0;
 
-        // Get Wasted Hours
         const findingDocs = parseFloat(document.getElementById('findingDocs').value) || 0;
         const reviewingLabels = parseFloat(document.getElementById('reviewingLabels').value) || 0;
         const fixingErrors = parseFloat(document.getElementById('fixingErrors').value) || 0;
         const supplierComm = parseFloat(document.getElementById('supplierComm').value) || 0;
-        const portDelays = parseFloat(document.getElementById('portDelays').value) || 0;
+        const portDelaysLabor = parseFloat(document.getElementById('portDelays').value) || 0;
 
-        // Calculate Totals (5 items now)
-        const totalWastedHoursPerWeekPerPerson = findingDocs + reviewingLabels + fixingErrors + supplierComm + portDelays;
-        
-        // 52 weeks in a year
+        const totalWastedHoursPerWeekPerPerson = findingDocs + reviewingLabels + fixingErrors + supplierComm + portDelaysLabor;
         const totalWastedHoursYear = totalWastedHoursPerWeekPerPerson * teamSize * 52;
-        const wastingCostYear = totalWastedHoursYear * hourlyRate;
+        const laborWastingCostYear = totalWastedHoursYear * hourlyRate;
+
+        // --- 2. Shipment Losses & Delays ---
+        const totalShipments = parseFloat(document.getElementById('totalShipments').value) || 0;
+        const shipmentValue = parseFloat(document.getElementById('shipmentValue').value) || 0;
+        const percentRejected = parseFloat(document.getElementById('percentRejected').value) || 0;
+        const percentDelayed = parseFloat(document.getElementById('percentDelayed').value) || 0;
+        const daysDelayed = parseFloat(document.getElementById('daysDelayed').value) || 0;
+        const portHoldingCost = parseFloat(document.getElementById('portHoldingCost').value) || 0;
+
+        // Calculate Cost of Rejections: (Total Shipments * % Rejected) * Value of Shipment
+        const rejectedShipmentsCount = totalShipments * (percentRejected / 100);
+        const rejectionLossCost = rejectedShipmentsCount * shipmentValue;
+
+        // Calculate Cost of Delays: (Total Shipments * % Delayed) * Avg Days * Port Holding Cost
+        const delayedShipmentsCount = totalShipments * (percentDelayed / 100);
+        const delayLossCost = delayedShipmentsCount * daysDelayed * portHoldingCost;
+
+        // --- 3. Grand Totals ---
+        const totalWastingCostYear = laborWastingCostYear + rejectionLossCost + delayLossCost;
         
         // Apply efficiency factor to determine actual savings
-        const savingCostYear = wastingCostYear * EFFICIENCY_FACTOR;
+        const savingCostYear = totalWastingCostYear * EFFICIENCY_FACTOR;
 
-        // ROI & Payback calculations
+        // --- 4. ROI & Payback calculations ---
         let roi = -100;
         let paybackMonths = 0;
 
@@ -372,10 +433,10 @@
         const formatCurrency = (val) => '$' + Math.round(val).toLocaleString();
         
         // Update the DOM
-        document.getElementById('wastingTotal').innerText = formatCurrency(wastingCostYear);
+        document.getElementById('wastingTotal').innerText = formatCurrency(totalWastingCostYear);
         document.getElementById('savingTotal').innerText = formatCurrency(savingCostYear);
         
-        document.getElementById('roiValue').innerText = Math.round(roi);
+        document.getElementById('roiValue').innerText = Math.round(roi).toLocaleString();
         
         // Format Payback to 1 decimal, unless it's a whole number
         let paybackStr = paybackMonths > 0 ? paybackMonths.toFixed(1) : "0";
