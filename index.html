@@ -64,6 +64,10 @@
             display: flex;
             flex-direction: column;
         }
+        
+        .input-group.spacer {
+            visibility: hidden; /* Used to keep flex grid aligned if a row has only 1 input */
+        }
 
         label {
             font-size: 13px;
@@ -88,7 +92,7 @@
             cursor: help;
         }
 
-        input[type="number"], input[type="text"] {
+        input[type="number"], input[type="text"], select {
             background-color: #333333;
             border: 1px solid #333333;
             color: #ffffff;
@@ -100,12 +104,21 @@
             outline: none;
             transition: all 0.2s ease;
         }
+        
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px top 50%;
+            background-size: 10px auto;
+            cursor: pointer;
+        }
 
         input[type="number"]::placeholder, input[type="text"]::placeholder {
             color: #888;
         }
 
-        input[type="number"]:focus:not([readonly]), input[type="text"]:focus:not([readonly]) {
+        input[type="number"]:focus:not([readonly]), input[type="text"]:focus:not([readonly]), select:focus {
             border-color: #555;
             background-color: #3a3a3a;
         }
@@ -231,6 +244,7 @@
 
         @media (max-width: 768px) {
             .input-row { flex-direction: column; gap: 15px; }
+            .input-group.spacer { display: none; }
             .roi-payback-row { flex-direction: column; gap: 30px; }
             .result-block.small.divider {
                 border-left: none;
@@ -251,14 +265,43 @@
             <h3>COMPANY DETAILS</h3>
             <div class="input-row">
                 <div class="input-group">
+                    <label>Currency</label>
+                    <select id="currencySelector">
+                        <option value="$">US Dollar (USD $)</option>
+                        <option value="£">British Pound (GBP £)</option>
+                        <option value="€">Euro (EUR €)</option>
+                    </select>
+                </div>
+                <div class="input-group spacer">
+                    <!-- Blank spacer for grid alignment -->
+                </div>
+            </div>
+            
+            <div class="input-row">
+                <div class="input-group">
                     <label>Team size <span class="info-icon" title="Number of team members managing documentation and compliance">i</span></label>
                     <input type="number" id="teamSize" placeholder="Team size" min="0">
                 </div>
                 <div class="input-group">
                     <label>Average hourly rate <span class="info-icon" title="Average hourly loaded cost (including benefits) per employee">i</span></label>
                     <div class="input-with-prefix">
-                        <span class="prefix">$</span>
+                        <span class="prefix currency-symbol">$</span>
                         <input type="number" id="hourlyRate" placeholder="Hourly rate" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- MOVED FROM BELOW: Total Shipments & Value -->
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Total shipments / year <span class="info-icon" title="Total annual volume of incoming shipments">i</span></label>
+                    <input type="number" id="totalShipments" placeholder="Total shipments" min="0">
+                </div>
+                <div class="input-group">
+                    <label>Avg shipment value <span class="info-icon" title="The total financial value of an average single shipment">i</span></label>
+                    <div class="input-with-prefix">
+                        <span class="prefix currency-symbol">$</span>
+                        <input type="number" id="shipmentValue" placeholder="Value" min="0">
                     </div>
                 </div>
             </div>
@@ -306,21 +349,8 @@
                 </div>
             </div>
 
-            <!-- NEW SECTION: Shipments & Delays -->
+            <!-- SECTION: Shipments & Delays -->
             <h3 style="margin-top: 30px;">SHIPMENT LOSSES & DELAYS (ANNUAL)</h3>
-            <div class="input-row">
-                <div class="input-group">
-                    <label>Total shipments / year <span class="info-icon" title="Total annual volume of incoming shipments">i</span></label>
-                    <input type="number" id="totalShipments" placeholder="Total shipments" min="0">
-                </div>
-                <div class="input-group">
-                    <label>Avg shipment value <span class="info-icon" title="The total financial value of an average single shipment">i</span></label>
-                    <div class="input-with-prefix">
-                        <span class="prefix">$</span>
-                        <input type="number" id="shipmentValue" placeholder="Value" min="0">
-                    </div>
-                </div>
-            </div>
             <div class="input-row">
                 <div class="input-group">
                     <label>% Shipments rejected <span class="info-icon" title="Percentage of shipments rejected entirely at the port (Industry avg: 2%)">i</span></label>
@@ -348,7 +378,7 @@
                 <div class="input-group">
                     <label>Port holding cost / day <span class="info-icon" title="Average demurrage or holding cost incurred per day when a shipment is delayed">i</span></label>
                     <div class="input-with-prefix">
-                        <span class="prefix">$</span>
+                        <span class="prefix currency-symbol">$</span>
                         <input type="number" id="portHoldingCost" placeholder="Cost per day" min="0">
                     </div>
                 </div>
@@ -365,7 +395,7 @@
                 <div class="input-group">
                     <label style="color:#888;">Estimated annual platform cost</label>
                     <div class="input-with-prefix">
-                        <span class="prefix" style="color:#555;">$</span>
+                        <span class="prefix currency-symbol" style="color:#555;">$</span>
                         <input type="text" id="calculatedPlatformCost" class="readonly-input" value="0" readonly>
                     </div>
                 </div>
@@ -404,8 +434,22 @@
 </div>
 
 <script>
-    // Configurable assumptions for the calculation
-    const EFFICIENCY_FACTOR = 0.85; // Assumes Veripura saves 85% of the inputted "wasted" time and losses
+    // Configurable assumptions
+    const EFFICIENCY_FACTOR = 0.85; 
+    let currentCurrency = '$'; // Default currency
+
+    // Handle currency changes
+    document.getElementById('currencySelector').addEventListener('change', function(e) {
+        currentCurrency = e.target.value;
+        
+        // Update all visual input prefixes to the new symbol
+        document.querySelectorAll('.currency-symbol').forEach(span => {
+            span.innerText = currentCurrency;
+        });
+        
+        // Trigger recalculation to update results with the new symbol
+        calculateROI();
+    });
 
     function calculateROI() {
         // --- 1. Labor Waste ---
@@ -430,18 +474,16 @@
         const daysDelayed = parseFloat(document.getElementById('daysDelayed').value) || 0;
         const portHoldingCost = parseFloat(document.getElementById('portHoldingCost').value) || 0;
 
-        // Calculate Cost of Rejections: (Total Shipments * % Rejected) * Value of Shipment
+        // Cost of Rejections
         const rejectedShipmentsCount = totalShipments * (percentRejected / 100);
         const rejectionLossCost = rejectedShipmentsCount * shipmentValue;
 
-        // Calculate Cost of Delays: (Total Shipments * % Delayed) * Avg Days * Port Holding Cost
+        // Cost of Delays
         const delayedShipmentsCount = totalShipments * (percentDelayed / 100);
         const delayLossCost = delayedShipmentsCount * daysDelayed * portHoldingCost;
 
         // --- 3. Grand Totals for Wasted/Saved ---
         const totalWastingCostYear = laborWastingCostYear + rejectionLossCost + delayLossCost;
-        
-        // Apply efficiency factor to determine actual savings
         const savingCostYear = totalWastingCostYear * EFFICIENCY_FACTOR;
 
         // --- 4. Veripura Platform Cost ---
@@ -449,10 +491,6 @@
         const totalAnnualShipmentValue = totalShipments * shipmentValue;
         const annualPlatformCost = totalAnnualShipmentValue * (veripuraFeePercentage / 100);
         
-        // Update the visual Platform Cost field
-        document.getElementById('calculatedPlatformCost').value = Math.round(annualPlatformCost).toLocaleString();
-
-
         // --- 5. ROI & Payback calculations ---
         let roi = -100;
         let paybackMonths = 0;
@@ -464,17 +502,20 @@
             }
         }
 
-        // Formatting Helpers
-        const formatCurrency = (val) => '$' + Math.round(val).toLocaleString();
+        // Output Formatting Helpers
+        const formatCurrency = (val) => currentCurrency + Math.round(val).toLocaleString();
         
-        // Update the DOM
+        // Update the visual Platform Cost input field
+        document.getElementById('calculatedPlatformCost').value = Math.round(annualPlatformCost).toLocaleString();
+        
+        // Update Results Panel
         document.getElementById('wastingTotal').innerText = formatCurrency(totalWastingCostYear);
         document.getElementById('savingTotal').innerText = formatCurrency(savingCostYear);
         
-        // Ensure ROI doesn't show NaN if there are no inputs
+        // ROI
         document.getElementById('roiValue').innerText = (annualPlatformCost === 0 && savingCostYear === 0) ? "-100" : Math.round(roi).toLocaleString();
         
-        // Format Payback to 1 decimal, unless it's a whole number
+        // Payback Period (Format to 1 decimal, clean trailing .0)
         let paybackStr = paybackMonths > 0 ? paybackMonths.toFixed(1) : "0";
         if (paybackStr.endsWith(".0")) paybackStr = paybackStr.slice(0, -2);
         if (savingCostYear === 0 || annualPlatformCost === 0) paybackStr = "0";
@@ -482,12 +523,12 @@
         document.getElementById('paybackValue').innerText = paybackStr;
     }
 
-    // Attach event listeners to all inputs to calculate in real-time
-    document.querySelectorAll('input').forEach(input => {
-        input.addEventListener('input', calculateROI);
+    // Event Listeners for Live Calculation
+    document.querySelectorAll('input, select').forEach(element => {
+        element.addEventListener('input', calculateROI);
     });
 
-    // Run once on load to populate defaults
+    // Run on load
     calculateROI();
 </script>
 
