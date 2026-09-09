@@ -308,16 +308,16 @@
             align-items: center;
         }
 
-        /* Expanded padding-left to cleanly fit 3-character symbols like AED, CHF, R$ */
         .input-with-prefix .prefix {
             position: absolute;
-            left: 10px;
+            left: 12px;
             color: var(--text-secondary);
             font-weight: 600;
-            font-size: 13px;
+            font-size: 14px;
         }
 
-        .input-with-prefix input { padding-left: 38px; }
+        /* Lock in ample space so wide currencies never overlap */
+        .input-with-prefix input { padding-left: 55px !important; }
 
         .input-with-suffix .suffix {
             position: absolute;
@@ -327,7 +327,8 @@
             font-weight: 600;
         }
 
-        .input-with-suffix input { padding-right: 40px; }
+        /* Lock in space so right-aligned text never overlaps the suffix */
+        .input-with-suffix input { padding-right: 45px !important; }
         
         /* Locked System Parameters (Hard Coded values) */
         .locked-input {
@@ -345,8 +346,10 @@
             color: var(--text-primary) !important;
             font-size: 18px !important;
             font-weight: 800 !important;
-            padding: 6px 12px !important;
+            padding-top: 6px !important;
+            padding-bottom: 6px !important;
             cursor: default;
+            text-align: right; /* Right hand justifies the numbers */
         }
 
         .highlight-prefix {
@@ -411,23 +414,25 @@
 
         /* Protection Callout Box */
         .protection-callout {
-            background-color: var(--bg-input);
-            border-left: 3px solid var(--color-saving);
-            padding: 10px 12px;
+            background-color: var(--bg-panel-input);
+            border-left: 4px solid var(--color-saving);
             border-radius: 4px;
-            margin-bottom: 16px;
-            font-size: 12px;
-            line-height: 1.4;
+            padding: 15px 18px;
+            margin-bottom: 25px;
+            font-size: 13px;
+            line-height: 1.5;
             color: var(--text-primary);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .protection-callout strong {
             color: var(--color-saving);
             display: block;
-            margin-bottom: 2px;
+            margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            font-size: 11px;
+            font-size: 12px;
+            font-weight: 800;
         }
 
         /* Footer */
@@ -695,14 +700,15 @@
                     <div class="result-value orange"><span id="wastingTotal">$0</span> <span class="period">/ yr</span></div>
                 </div>
                 
-                <div class="result-block" style="margin-bottom: 20px;">
+                <div class="result-block" style="margin-bottom: 25px;">
                     <h4 class="saving-title">YOU CAN SAVE (<span id="efficiencyDisplay">75</span>% EFFICIENCY) *</h4>
                     <div class="result-value green"><span id="savingTotal">$0</span> <span class="period">/ yr</span></div>
                 </div>
 
-                <div class="protection-callout" style="margin-bottom: 0;">
+                <!-- Repositioned and Styled Callout -->
+                <div class="protection-callout">
                     <strong>Food Safety & Brand Protection</strong>
-                    Substantially reduces undeclared allergen risks, missing health cert holds, reefer electricity surcharges, shelf-life degradation, and late delivery retailer fees.
+                    Substantially reduces labor costs, recall risks, undeclared allergen risks, missing health cert holds, reefer electricity surcharges, shelf-life degradation, and late delivery retailer fees.
                 </div>
             </div>
             
