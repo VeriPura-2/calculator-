@@ -412,6 +412,7 @@
             font-size: 42px; 
             font-weight: 700;
             line-height: 1.05;
+            text-align: left; /* Keep top summary numbers left aligned for vertical flow */
         }
 
         .result-value.orange { color: var(--color-wasting); }
@@ -541,21 +542,23 @@
                 <div class="input-group">
                     <label>Currency</label>
                     <select id="currencySelector">
-                        <option value="$">US Dollar (USD $)</option>
-                        <option value="€">Euro (EUR €)</option>
-                        <option value="£">British Pound (GBP £)</option>
-                        <option value="A$">Australian Dollar (AUD A$)</option>
-                        <option value="R$">Brazilian Real (BRL R$)</option>
-                        <option value="C$">Canadian Dollar (CAD C$)</option>
-                        <option value="¥">Chinese Yuan (CNY ¥)</option>
-                        <option value="₹">Indian Rupee (INR ₹)</option>
-                        <option value="¥">Japanese Yen (JPY ¥)</option>
-                        <option value="Mex$">Mexican Peso (MXN $)</option>
-                        <option value="NZ$">New Zealand Dollar (NZD NZ$)</option>
-                        <option value="S$">Singapore Dollar (SGD S$)</option>
-                        <option value="₩">South Korean Won (KRW ₩)</option>
-                        <option value="CHF">Swiss Franc (CHF)</option>
-                        <option value="AED">UAE Dirham (AED)</option>
+                        <!-- data-rate represents approximate value relative to 1 USD -->
+                        <option value="$" data-rate="1.00">US Dollar (USD $)</option>
+                        <option value="€" data-rate="0.92">Euro (EUR €)</option>
+                        <option value="£" data-rate="0.79">British Pound (GBP £)</option>
+                        <option value="A$" data-rate="1.53">Australian Dollar (AUD A$)</option>
+                        <option value="R$" data-rate="5.05">Brazilian Real (BRL R$)</option>
+                        <option value="C$" data-rate="1.36">Canadian Dollar (CAD C$)</option>
+                        <option value="¥" data-rate="7.23">Chinese Yuan (CNY ¥)</option>
+                        <option value="₹" data-rate="83.30">Indian Rupee (INR ₹)</option>
+                        <option value="¥" data-rate="150.00">Japanese Yen (JPY ¥)</option>
+                        <option value="Mex$" data-rate="17.00">Mexican Peso (MXN $)</option>
+                        <option value="NZ$" data-rate="1.65">New Zealand Dollar (NZD NZ$)</option>
+                        <option value="S$" data-rate="1.35">Singapore Dollar (SGD S$)</option>
+                        <option value="₩" data-rate="1350.00">South Korean Won (KRW ₩)</option>
+                        <option value="CHF" data-rate="0.90">Swiss Franc (CHF)</option>
+                        <option value="฿" data-rate="36.00">Thai Baht (THB ฿)</option>
+                        <option value="AED" data-rate="3.67">UAE Dirham (AED)</option>
                     </select>
                 </div>
                 <div class="input-group">
@@ -810,10 +813,46 @@
         }
     });
 
+    // --- CURRENCY TRANSLATOR LOGIC ---
+    let currentCurrency = '$'; 
+    let currentRate = 1.0; // Base index is USD at 1.0
+
+    document.getElementById('currencySelector').addEventListener('change', function(e) {
+        // 1. Get the new currency details
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        currentCurrency = selectedOption.value;
+        const newRate = parseFloat(selectedOption.getAttribute('data-rate'));
+
+        // 2. Calculate the exact conversion multiplier
+        const conversionRatio = newRate / currentRate;
+
+        // 3. Find every input field that contains a currency value and convert it
+        const monetaryFields = ['hourlyRate', 'shipmentValue', 'portHoldingCost', 'minFeePerShipment'];
+        
+        monetaryFields.forEach(id => {
+            const el = document.getElementById(id);
+            const currentVal = parseFloat(el.value) || 0;
+            // Multiply the current value by the conversion ratio and round to the nearest whole number
+            el.value = Math.round(currentVal * conversionRatio);
+        });
+
+        // 4. Update the tracker to the new rate so future conversions remain accurate
+        currentRate = newRate;
+        
+        // 5. Update the visual UI symbols everywhere on the page
+        document.querySelectorAll('.currency-symbol').forEach(span => {
+            span.innerText = currentCurrency;
+        });
+
+        // 6. Recalculate everything!
+        calculateROI();
+    });
+
     // --- VISIBLE OVERRIDE & FOOD TYPE SELECTION EVENT ---
     document.getElementById('foodType').addEventListener('change', function(e) {
         const valParts = e.target.value.split('|');
-        const suggestedRate = parseInt(valParts[0]);
+        // Because the base value is hard-coded in USD, we must multiply it by the active exchange rate
+        const suggestedRateBaseUSD = parseInt(valParts[0]); 
         const suggestedPenalty = parseFloat(valParts[1]);
         const holdingTooltipText = valParts[2];
 
@@ -821,7 +860,8 @@
         const penaltyInput = document.getElementById('latePenaltyPercent');
         const portHoldingInfo = document.getElementById('portHoldingInfo');
 
-        holdingInput.value = suggestedRate;
+        // Apply translated rate automatically
+        holdingInput.value = Math.round(suggestedRateBaseUSD * currentRate);
         penaltyInput.value = suggestedPenalty;
 
         // Update the tooltip instead of showing red helper text
@@ -836,16 +876,6 @@
     });
 
     // --- CALCULATOR LOGIC ---
-    let currentCurrency = '$'; 
-
-    document.getElementById('currencySelector').addEventListener('change', function(e) {
-        currentCurrency = e.target.value;
-        document.querySelectorAll('.currency-symbol').forEach(span => {
-            span.innerText = currentCurrency;
-        });
-        calculateROI();
-    });
-
     function calculateROI() {
         // 1. Labor Waste (Per Shipment)
         const hourlyRate = parseFloat(document.getElementById('hourlyRate').value) || 0;
