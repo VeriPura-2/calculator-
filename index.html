@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veripura ROI Calculator</title>
+    <title>Veripura ROI Calculator - Food Import Edition</title>
     <style>
         /* CSS Variables for Theming */
         :root {
@@ -82,7 +82,7 @@
             --select-arrow: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23111111%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
         }
 
-        /* Base styling */
+        /* Base styling - Compact for single-screen height */
         body {
             background-color: var(--bg-body);
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -93,7 +93,7 @@
             min-height: 100vh;
             margin: 0;
             color: var(--text-primary);
-            padding: 40px 20px;
+            padding: 15px 20px;
             box-sizing: border-box;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
@@ -104,7 +104,7 @@
             max-width: 1250px;
             display: flex;
             justify-content: flex-end;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .theme-switch-wrapper {
@@ -120,9 +120,9 @@
 
         .theme-switch {
             display: inline-block;
-            height: 24px;
+            height: 22px;
             position: relative;
-            width: 44px;
+            width: 40px;
         }
 
         .theme-switch input { display: none; }
@@ -136,18 +136,18 @@
             right: 0;
             top: 0;
             transition: .4s;
-            border-radius: 24px;
+            border-radius: 22px;
         }
 
         .slider:before {
             background-color: #fff;
             bottom: 3px;
             content: "";
-            height: 18px;
+            height: 16px;
             left: 3px;
             position: absolute;
             transition: .4s;
-            width: 18px;
+            width: 16px;
             border-radius: 50%;
         }
 
@@ -156,7 +156,7 @@
         }
 
         input:checked + .slider:before {
-            transform: translateX(20px);
+            transform: translateX(18px);
         }
 
         .theme-label.active {
@@ -184,11 +184,11 @@
             flex-wrap: wrap;
         }
 
-        /* 3-Column Specifics */
+        /* Compact Panel Heights */
         .panel {
-            padding: 40px;
+            padding: 20px 28px;
             flex: 1;
-            min-width: 320px;
+            min-width: 310px;
             transition: background-color 0.3s ease;
         }
 
@@ -214,16 +214,16 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-top: 0;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
             border-bottom: 1px solid var(--border-divider);
             color: var(--text-primary);
         }
 
         .input-row {
             display: flex;
-            gap: 20px;
-            margin-bottom: 25px;
+            gap: 14px;
+            margin-bottom: 12px;
         }
 
         .input-group {
@@ -237,7 +237,7 @@
         label {
             font-size: 14px;
             font-weight: 700; 
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             display: flex;
             align-items: center;
         }
@@ -263,7 +263,7 @@
             background-color: var(--bg-input);
             border: 1px solid var(--border-input);
             color: var(--text-primary);
-            padding: 12px 15px;
+            padding: 8px 12px;
             border-radius: 4px;
             font-size: 14px;
             font-weight: 600; 
@@ -277,7 +277,7 @@
             appearance: none;
             background-image: var(--select-arrow);
             background-repeat: no-repeat;
-            background-position: right 15px top 50%;
+            background-position: right 12px top 50%;
             background-size: 10px auto;
             cursor: pointer;
         }
@@ -310,31 +310,41 @@
 
         .input-with-prefix .prefix {
             position: absolute;
-            left: 15px;
+            left: 12px;
             color: var(--text-secondary);
             font-weight: 600;
             font-size: 14px;
         }
 
-        .input-with-prefix input { padding-left: 30px; }
+        .input-with-prefix input { padding-left: 28px; }
 
         .input-with-suffix .suffix {
             position: absolute;
-            right: 15px;
+            right: 12px;
             color: var(--text-secondary);
             font-size: 14px;
             font-weight: 600;
         }
 
-        .input-with-suffix input { padding-right: 45px; }
+        .input-with-suffix input { padding-right: 40px; }
         
-        /* High-contrast Summary Inputs & Prefix/Suffixes: 18px */
+        /* Locked System Parameters (Hard Coded values) */
+        .locked-input {
+            background-color: transparent !important;
+            border: 1px dashed var(--border-divider) !important;
+            color: var(--text-secondary) !important;
+            cursor: default !important;
+            box-shadow: none !important;
+        }
+
+        /* High-contrast Readonly Input Styling for Summaries: 18px */
         .highlight-readonly {
             background-color: transparent !important;
             border: 1px solid var(--border-input-focus) !important;
             color: var(--text-primary) !important;
             font-size: 18px !important;
             font-weight: 800 !important;
+            padding: 6px 12px !important;
             cursor: default;
         }
 
@@ -351,14 +361,14 @@
         }
 
         /* Results Panel Styling */
-        .result-block { margin-bottom: 30px; }
+        .result-block { margin-bottom: 18px; }
 
         /* Result Headings: 16px (2px larger than 14px baseline) */
         h4 {
             font-size: 16px;
             font-weight: 800; 
             text-transform: uppercase;
-            margin: 0 0 10px 0;
+            margin: 0 0 6px 0;
             letter-spacing: 0.5px;
         }
 
@@ -367,9 +377,9 @@
         .white-title { color: var(--text-title-white); }
 
         .result-value {
-            font-size: 46px; 
+            font-size: 42px; 
             font-weight: 700;
-            line-height: 1.1;
+            line-height: 1.05;
         }
 
         .result-value.orange { color: var(--color-wasting); }
@@ -378,13 +388,13 @@
         .result-value.white { color: var(--text-primary); }
 
         .period {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
         }
 
         .roi-payback-row {
             display: flex;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .result-block.small {
@@ -394,28 +404,45 @@
 
         .result-block.small.divider {
             border-left: 1px solid var(--border-divider);
-            padding-left: 20px;
-            margin-left: 20px;
+            padding-left: 15px;
+            margin-left: 15px;
         }
 
-        .unit {
-            font-size: 22px;
-            font-weight: 600;
+        /* Protection Callout Box */
+        .protection-callout {
+            background-color: var(--bg-input);
+            border-left: 3px solid var(--color-saving);
+            padding: 10px 12px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            font-size: 12px;
+            line-height: 1.4;
+            color: var(--text-primary);
+        }
+
+        .protection-callout strong {
+            color: var(--color-saving);
+            display: block;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 11px;
         }
 
         /* Footer */
         .footer-note {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-footer);
-            padding: 20px 40px;
+            padding: 10px 28px;
             background-color: var(--bg-footer);
             border-top: 1px solid var(--border-footer);
-            line-height: 1.5;
+            line-height: 1.4;
             transition: all 0.3s ease;
         }
 
         /* Responsive Breakpoints */
         @media (max-width: 992px) {
+            body { min-height: auto; }
             .calculator-container { flex-direction: column; }
             .center-col { 
                 border-left: none; 
@@ -427,16 +454,16 @@
         }
 
         @media (max-width: 576px) {
-            .input-row { flex-direction: column; gap: 15px; }
-            .roi-payback-row { flex-direction: column; gap: 30px; }
+            .input-row { flex-direction: column; gap: 10px; }
+            .roi-payback-row { flex-direction: column; gap: 15px; }
             .result-block.small.divider {
                 border-left: none;
                 padding-left: 0;
                 margin-left: 0;
                 border-top: 1px solid var(--border-divider);
-                padding-top: 20px;
+                padding-top: 12px;
             }
-            .result-value { font-size: 40px; }
+            .result-value { font-size: 34px; }
         }
     </style>
 </head>
@@ -457,9 +484,9 @@
 <div class="calc-wrapper">
     <div class="calculator-container">
         
-        <!-- COLUMN 1: Company & Per-Shipment Labor -->
+        <!-- COLUMN 1: Company & Food Import Workflow Labor -->
         <div class="panel left-col">
-            <h3>COMPANY DETAILS</h3>
+            <h3>IMPORT DETAILS</h3>
             <div class="input-row">
                 <div class="input-group">
                     <label>Currency</label>
@@ -470,7 +497,7 @@
                     </select>
                 </div>
                 <div class="input-group">
-                    <label>Avg hourly rate <span class="info-icon" title="Average hourly loaded cost per employee">i</span></label>
+                    <label>Avg hourly rate <span class="info-icon" title="Average hourly loaded cost per compliance/logistics staff member">i</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol">$</span>
                         <input type="number" id="hourlyRate" value="50" placeholder="Rate" min="0">
@@ -478,17 +505,18 @@
                 </div>
             </div>
 
-            <h3 style="margin-top: 20px;">HOURS WASTED / SHIPMENT</h3>
+            <!-- Added extra margin top for line break -->
+            <h3 style="margin-top: 36px;">HOURS WASTED / SHIPMENT</h3>
             <div class="input-row">
                 <div class="input-group">
-                    <label>Finding documents <span class="info-icon" title="Time spent searching emails and drives per shipment">i</span></label>
+                    <label>Sanitary and Lab Files <span class="info-icon" title="Chasing and verifying health certificates, sanitary declarations, and lab test reports">i</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="findingDocs" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Reviewing labels <span class="info-icon" title="Time spent manually cross-referencing labels per shipment">i</span></label>
+                    <label>Label Validation <span class="info-icon" title="Reviewing ingredient lists, allergen declarations, and local food labeling rules">i</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="reviewingLabels" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
@@ -498,16 +526,16 @@
             
             <div class="input-row">
                 <div class="input-group">
-                    <label>Correcting errors <span class="info-icon" title="Time wasted fixing documentation mistakes per shipment">i</span></label>
+                    <label>Document fixes <span class="info-icon" title="Time spent correcting non-compliant paperwork, batch codes, or origin tags">i</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="fixingErrors" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Supplier comms <span class="info-icon" title="Time spent requesting missing vendor files per shipment">i</span></label>
+                    <label>HS Code Validation <span class="info-icon" title="Verifying Harmonized System (HS) codes, product classifications, and tariff data">i</span></label>
                     <div class="input-with-suffix">
-                        <input type="number" id="supplierComm" value="1" placeholder="Hours" min="0" step="0.1">
+                        <input type="number" id="hsCodeTime" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
                     </div>
                 </div>
@@ -515,7 +543,7 @@
             
             <div class="input-row">
                 <div class="input-group">
-                    <label>Troubleshooting delays <span class="info-icon" title="Time wasted clearing up port holds and rejections per shipment">i</span></label>
+                    <label>Customs & sanitary holds <span class="info-icon" title="Troubleshooting border port holds, re-inspections, and quarantine delays">i</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="portDelays" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
@@ -541,33 +569,51 @@
             </div>
         </div>
 
-        <!-- COLUMN 2: Shipments & Platform -->
+        <!-- COLUMN 2: Food Type, Losses & Platform -->
         <div class="panel center-col">
             <h3>SHIPMENT LOSSES & DELAYS (ANNUAL)</h3>
             <div class="input-row">
                 <div class="input-group">
-                    <label>Total shipments / year <span class="info-icon" title="Total annual volume of incoming shipments">i</span></label>
+                    <label>Total shipments / year <span class="info-icon" title="Total annual volume of incoming food import shipments">i</span></label>
                     <input type="number" id="totalShipments" value="100" placeholder="100" min="0">
                 </div>
                 <div class="input-group">
-                    <label>Avg shipment value <span class="info-icon" title="Financial value of an average single shipment">i</span></label>
+                    <label>Avg shipment value <span class="info-icon" title="Financial value of an average single food shipment">i</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol">$</span>
                         <input type="number" id="shipmentValue" value="25000" placeholder="25000" min="0">
                     </div>
                 </div>
             </div>
-            
+
             <div class="input-row">
                 <div class="input-group">
-                    <label>% Shipments rejected <span class="info-icon" title="Percentage rejected entirely at port (Industry avg: 2%)">i</span></label>
+                    <label>Food / Cargo Type <span class="info-icon" title="Selecting refrigerated or fresh cargo updates port holding fees for reefer power and increases commercial spoilage loss risks">i</span></label>
+                    <select id="foodType">
+                        <option value="500|2|Base port demurrage">Dry Goods</option>
+                        <option value="750|4|Includes +$250 reefer surcharge">Cold Chain</option>
+                        <option value="750|8|Includes +$250 reefer surcharge" selected>Perishable</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label style="white-space: nowrap;">Port holding cost / day <span class="info-icon" id="portHoldingInfo" title="Includes +$250 reefer surcharge">i</span></label>
+                    <div class="input-with-prefix">
+                        <span class="prefix currency-symbol">$</span>
+                        <input type="number" id="portHoldingCost" value="750" placeholder="750" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label>% Shipments rejected <span class="info-icon" title="Percentage rejected entirely at border due to labeling or sanitary errors (Industry avg: 2%)">i</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="percentRejected" value="2" placeholder="2" min="0" max="100">
                         <span class="suffix">%</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>% Shipments delayed <span class="info-icon" title="Percentage facing port holds and delays (Industry avg: 2%)">i</span></label>
+                    <label>% Shipments delayed <span class="info-icon" title="Percentage facing port sanitary or customs holds (Industry avg: 2%)">i</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="percentDelayed" value="2" placeholder="2" min="0" max="100">
                         <span class="suffix">%</span>
@@ -577,42 +623,42 @@
             
             <div class="input-row">
                 <div class="input-group">
-                    <label>Avg days of delay <span class="info-icon" title="Average hold duration when a shipment is delayed">i</span></label>
+                    <label>Avg days of delay <span class="info-icon" title="Average duration container sits held at border">i</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="daysDelayed" value="5" placeholder="5" min="0">
                         <span class="suffix">days</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label style="white-space: nowrap;">Port holding cost / day <span class="info-icon" title="Average demurrage cost incurred per delay day">i</span></label>
-                    <div class="input-with-prefix">
-                        <span class="prefix currency-symbol">$</span>
-                        <input type="number" id="portHoldingCost" value="500" placeholder="500" min="0">
+                    <label style="white-space: nowrap;">Late Fees & Spoilage % <span class="info-icon" title="Commercial losses from retailer late penalties, buyer rejections, and reduced shelf life on delayed cargo">i</span></label>
+                    <div class="input-with-suffix">
+                        <input type="number" id="latePenaltyPercent" value="8" placeholder="8" min="0" max="100" step="0.5">
+                        <span class="suffix">%</span>
                     </div>
                 </div>
             </div>
             
-            <h3 style="margin-top: 30px;">VERIPURA PLATFORM & PARAMETERS</h3>
-            <div class="input-row">
+            <h3 style="margin-top: 12px;">VERIPURA PLATFORM & PARAMETERS</h3>
+            <div class="input-row" style="margin-bottom: 0;">
                 <div class="input-group">
-                    <label>Validation fee <span class="info-icon" title="Compliance validation percentage charged per shipment">i</span></label>
+                    <label>Validation fee <span class="info-icon" title="Compliance validation percentage charged per shipment (Fixed)">i</span></label>
                     <div class="input-with-suffix">
-                        <input type="number" id="veripuraFee" value="0.8" placeholder="0.8" min="0" max="100" step="0.1">
-                        <span class="suffix">%</span>
+                        <input type="number" id="veripuraFee" value="0.8" readonly tabindex="-1" class="locked-input">
+                        <span class="suffix" style="color: var(--text-secondary);">%</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Min fee / shipment <span class="info-icon" title="Minimum transaction fee floor applied per shipment">i</span></label>
+                    <label>Min fee / shipment <span class="info-icon" title="Minimum transaction fee floor applied per shipment (Fixed)">i</span></label>
                     <div class="input-with-prefix">
-                        <span class="prefix currency-symbol">$</span>
-                        <input type="number" id="minFeePerShipment" value="100" placeholder="100" min="0">
+                        <span class="prefix currency-symbol" style="color: var(--text-secondary);">$</span>
+                        <input type="number" id="minFeePerShipment" value="100" readonly tabindex="-1" class="locked-input">
                     </div>
                 </div>
             </div>
 
-            <div class="input-row">
+            <div class="input-row" style="margin-bottom: 0; margin-top: 12px;">
                 <div class="input-group">
-                    <label>Efficiency gain <span class="info-icon" title="Percentage of documented waste eliminated by Veripura">i</span></label>
+                    <label>Efficiency gain <span class="info-icon" title="Percentage of documented waste & documentation delays eliminated">i</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="efficiencyGain" value="75" placeholder="75" min="0" max="100">
                         <span class="suffix">%</span>
@@ -628,16 +674,23 @@
             </div>
         </div>
 
-        <!-- COLUMN 3: Results -->
+        <!-- COLUMN 3: Results & Protection Callout -->
         <div class="panel right-col">
-            <div class="result-block">
-                <h4 class="wasting-title">YOU ARE CURRENTLY WASTING</h4>
-                <div class="result-value orange"><span id="wastingTotal">$0</span> <span class="period">/ yr</span></div>
-            </div>
-            
-            <div class="result-block">
-                <h4 class="saving-title">YOU CAN SAVE (<span id="efficiencyDisplay">75</span>% EFFICIENCY) *</h4>
-                <div class="result-value green"><span id="savingTotal">$0</span> <span class="period">/ yr</span></div>
+            <div>
+                <div class="result-block">
+                    <h4 class="wasting-title">YOU ARE CURRENTLY WASTING</h4>
+                    <div class="result-value orange"><span id="wastingTotal">$0</span> <span class="period">/ yr</span></div>
+                </div>
+                
+                <div class="result-block" style="margin-bottom: 20px;">
+                    <h4 class="saving-title">YOU CAN SAVE (<span id="efficiencyDisplay">75</span>% EFFICIENCY) *</h4>
+                    <div class="result-value green"><span id="savingTotal">$0</span> <span class="period">/ yr</span></div>
+                </div>
+
+                <div class="protection-callout" style="margin-bottom: 0;">
+                    <strong>Food Safety & Brand Protection</strong>
+                    Eliminates undeclared allergen risks, missing health cert holds, reefer electricity surcharges, shelf-life degradation, and late delivery retailer fees.
+                </div>
             </div>
             
             <div class="roi-payback-row">
@@ -655,7 +708,7 @@
     </div>
     
     <div class="footer-note">
-        * Estimated savings reflect workflow efficiency gains assuming Veripura eliminates the specified percentage of documented waste. Platform costs apply a validation percentage subject to the minimum transaction fee floor per shipment. For a custom calculation tailored to your specific workflow, book a demo with our sales team.
+        * Estimated savings reflect workflow efficiency gains assuming Veripura eliminates the specified percentage of documented waste. Perishable & cold-chain selections automatically adjust physical port holding rates (reefer power) and commercial spoilage/late delivery penalty percentages. Platform costs apply a validation percentage subject to the minimum transaction fee floor per shipment.
     </div>
 </div>
 
@@ -692,6 +745,31 @@
         }
     });
 
+    // --- VISIBLE OVERRIDE & FOOD TYPE SELECTION EVENT ---
+    document.getElementById('foodType').addEventListener('change', function(e) {
+        const valParts = e.target.value.split('|');
+        const suggestedRate = parseInt(valParts[0]);
+        const suggestedPenalty = parseFloat(valParts[1]);
+        const holdingTooltipText = valParts[2];
+
+        const holdingInput = document.getElementById('portHoldingCost');
+        const penaltyInput = document.getElementById('latePenaltyPercent');
+        const portHoldingInfo = document.getElementById('portHoldingInfo');
+
+        holdingInput.value = suggestedRate;
+        penaltyInput.value = suggestedPenalty;
+
+        // Update the tooltip instead of showing red helper text
+        portHoldingInfo.title = holdingTooltipText;
+
+        calculateROI();
+    });
+
+    // Clear tooltip specifics on manual field edits
+    document.getElementById('portHoldingCost').addEventListener('input', function() {
+        document.getElementById('portHoldingInfo').title = "Custom user port holding rate";
+    });
+
     // --- CALCULATOR LOGIC ---
     let currentCurrency = '$'; 
 
@@ -709,10 +787,10 @@
         const findingDocs = parseFloat(document.getElementById('findingDocs').value) || 0;
         const reviewingLabels = parseFloat(document.getElementById('reviewingLabels').value) || 0;
         const fixingErrors = parseFloat(document.getElementById('fixingErrors').value) || 0;
-        const supplierComm = parseFloat(document.getElementById('supplierComm').value) || 0;
+        const hsCodeTime = parseFloat(document.getElementById('hsCodeTime').value) || 0;
         const portDelaysLabor = parseFloat(document.getElementById('portDelays').value) || 0;
 
-        const totalWastedHoursPerShipment = findingDocs + reviewingLabels + fixingErrors + supplierComm + portDelaysLabor;
+        const totalWastedHoursPerShipment = findingDocs + reviewingLabels + fixingErrors + hsCodeTime + portDelaysLabor;
         const laborCostPerShipment = totalWastedHoursPerShipment * hourlyRate;
 
         // 2. Shipment Volume & Losses
@@ -722,16 +800,20 @@
         const percentDelayed = parseFloat(document.getElementById('percentDelayed').value) || 0;
         const daysDelayed = parseFloat(document.getElementById('daysDelayed').value) || 0;
         const portHoldingCost = parseFloat(document.getElementById('portHoldingCost').value) || 0;
+        const latePenaltyPercent = parseFloat(document.getElementById('latePenaltyPercent').value) || 0;
 
         // Annual Labor Waste Cost
         const laborWastingCostYear = totalWastedHoursPerShipment * totalShipments * hourlyRate;
 
-        // Shipment Losses
+        // Rejection Losses
         const rejectedShipmentsCount = totalShipments * (percentRejected / 100);
         const rejectionLossCost = rejectedShipmentsCount * shipmentValue;
 
+        // Delay Losses: Port Holding (Physical Port Fee) + Late Fee/Spoilage Loss (Commercial Loss)
         const delayedShipmentsCount = totalShipments * (percentDelayed / 100);
-        const delayLossCost = delayedShipmentsCount * daysDelayed * portHoldingCost;
+        const portHoldingLossCost = delayedShipmentsCount * daysDelayed * portHoldingCost;
+        const commercialLossCost = delayedShipmentsCount * shipmentValue * (latePenaltyPercent / 100);
+        const delayLossCost = portHoldingLossCost + commercialLossCost;
 
         // 3. Efficiency Benefit & Grand Totals
         const efficiencyGainPercent = parseFloat(document.getElementById('efficiencyGain').value) || 0;
