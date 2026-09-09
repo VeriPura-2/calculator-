@@ -35,6 +35,11 @@
             
             --text-unit: #aaaaaa;
 
+            /* Hero Result Colors (Dark Mode Default) */
+            --color-wasting: #ff6b35;
+            --color-saving: #7fd13b;
+            --color-roi: #f7c52b;
+
             /* SVG for select arrow (White) */
             --select-arrow: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
         }
@@ -67,6 +72,11 @@
             --text-footer: #495057;
             
             --text-unit: #495057;
+
+            /* High-Contrast Colors for Light Mode (WCAG Compliant) */
+            --color-wasting: #d9480f;
+            --color-saving: #2b8a3e;
+            --color-roi: #b58100;
 
             /* SVG for select arrow (Dark Grey) */
             --select-arrow: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23111111%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
@@ -101,7 +111,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
             color: var(--text-secondary);
             text-transform: uppercase;
@@ -142,7 +152,7 @@
         }
 
         input:checked + .slider {
-            background-color: #ff6b35; 
+            background-color: var(--color-wasting); 
         }
 
         input:checked + .slider:before {
@@ -197,8 +207,9 @@
             justify-content: space-between;
         }
 
+        /* Section Headings: 16px (2px larger than 14px baseline) */
         h3 {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -222,8 +233,9 @@
             justify-content: flex-end;
         }
 
+        /* Standard Input Labels: 14px */
         label {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700; 
             margin-bottom: 10px;
             display: flex;
@@ -246,6 +258,7 @@
             flex-shrink: 0;
         }
 
+        /* Form Inputs & Dropdowns: 14px */
         input[type="number"], input[type="text"], select {
             background-color: var(--bg-input);
             border: 1px solid var(--border-input);
@@ -300,6 +313,7 @@
             left: 15px;
             color: var(--text-secondary);
             font-weight: 600;
+            font-size: 14px;
         }
 
         .input-with-prefix input { padding-left: 30px; }
@@ -308,33 +322,48 @@
             position: absolute;
             right: 15px;
             color: var(--text-secondary);
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
         }
 
         .input-with-suffix input { padding-right: 45px; }
         
-        /* Readonly input styling */
-        .readonly-input {
+        /* High-contrast Summary Inputs & Prefix/Suffixes: 18px */
+        .highlight-readonly {
             background-color: transparent !important;
-            border: 1px dashed var(--border-readonly) !important;
-            color: var(--text-secondary) !important;
+            border: 1px solid var(--border-input-focus) !important;
+            color: var(--text-primary) !important;
+            font-size: 18px !important;
+            font-weight: 800 !important;
             cursor: default;
+        }
+
+        .highlight-prefix {
+            color: var(--text-primary) !important;
+            font-size: 18px !important;
+            font-weight: 800 !important;
+        }
+
+        .highlight-suffix {
+            color: var(--text-primary) !important;
+            font-size: 18px !important;
+            font-weight: 800 !important;
         }
 
         /* Results Panel Styling */
         .result-block { margin-bottom: 30px; }
 
+        /* Result Headings: 16px (2px larger than 14px baseline) */
         h4 {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 800; 
             text-transform: uppercase;
             margin: 0 0 10px 0;
             letter-spacing: 0.5px;
         }
 
-        .wasting-title { color: #ff6b35; }
-        .saving-title { color: #7fd13b; }
+        .wasting-title { color: var(--color-wasting); }
+        .saving-title { color: var(--color-saving); }
         .white-title { color: var(--text-title-white); }
 
         .result-value {
@@ -343,9 +372,9 @@
             line-height: 1.1;
         }
 
-        .result-value.orange { color: #ff6b35; }
-        .result-value.green { color: #7fd13b; }
-        .result-value.yellow { color: #f7c52b; }
+        .result-value.orange { color: var(--color-wasting); }
+        .result-value.green { color: var(--color-saving); }
+        .result-value.yellow { color: var(--color-roi); }
         .result-value.white { color: var(--text-primary); }
 
         .period {
@@ -484,12 +513,29 @@
                 </div>
             </div>
             
-            <div class="input-row" style="margin-bottom: 0;">
+            <div class="input-row">
                 <div class="input-group">
                     <label>Troubleshooting delays <span class="info-icon" title="Time wasted clearing up port holds and rejections per shipment">i</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="portDelays" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-row" style="margin-bottom: 0;">
+                <div class="input-group">
+                    <label style="color: var(--text-primary); font-weight: 800;">Total Hours</label>
+                    <div class="input-with-suffix">
+                        <input type="text" id="calculatedTotalHoursPerShipment" class="highlight-readonly" value="0" readonly>
+                        <span class="suffix highlight-suffix">hrs</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label style="color: var(--text-primary); font-weight: 800;">Labor cost / shipment</label>
+                    <div class="input-with-prefix">
+                        <span class="prefix currency-symbol highlight-prefix">$</span>
+                        <input type="text" id="calculatedLaborCostPerShipment" class="highlight-readonly" value="0" readonly>
                     </div>
                 </div>
             </div>
@@ -507,7 +553,7 @@
                     <label>Avg shipment value <span class="info-icon" title="Financial value of an average single shipment">i</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol">$</span>
-                        <input type="number" id="shipmentValue" value="10000" placeholder="10000" min="0">
+                        <input type="number" id="shipmentValue" value="25000" placeholder="25000" min="0">
                     </div>
                 </div>
             </div>
@@ -559,7 +605,7 @@
                     <label>Min fee / shipment <span class="info-icon" title="Minimum transaction fee floor applied per shipment">i</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol">$</span>
-                        <input type="number" id="minFeePerShipment" value="200" placeholder="200" min="0">
+                        <input type="number" id="minFeePerShipment" value="100" placeholder="100" min="0">
                     </div>
                 </div>
             </div>
@@ -568,15 +614,15 @@
                 <div class="input-group">
                     <label>Efficiency gain <span class="info-icon" title="Percentage of documented waste eliminated by Veripura">i</span></label>
                     <div class="input-with-suffix">
-                        <input type="number" id="efficiencyGain" value="85" placeholder="85" min="0" max="100">
+                        <input type="number" id="efficiencyGain" value="75" placeholder="75" min="0" max="100">
                         <span class="suffix">%</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label style="color: var(--text-secondary);">Est annual platform cost</label>
+                    <label style="color: var(--text-primary); font-weight: 800;">Annual Platform Cost</label>
                     <div class="input-with-prefix">
-                        <span class="prefix currency-symbol">$</span>
-                        <input type="text" id="calculatedPlatformCost" class="readonly-input" value="0" readonly>
+                        <span class="prefix currency-symbol highlight-prefix">$</span>
+                        <input type="text" id="calculatedPlatformCost" class="highlight-readonly" value="0" readonly>
                     </div>
                 </div>
             </div>
@@ -590,7 +636,7 @@
             </div>
             
             <div class="result-block">
-                <h4 class="saving-title">YOU CAN SAVE (<span id="efficiencyDisplay">85</span>% EFFICIENCY) *</h4>
+                <h4 class="saving-title">YOU CAN SAVE (<span id="efficiencyDisplay">75</span>% EFFICIENCY) *</h4>
                 <div class="result-value green"><span id="savingTotal">$0</span> <span class="period">/ yr</span></div>
             </div>
             
@@ -667,6 +713,7 @@
         const portDelaysLabor = parseFloat(document.getElementById('portDelays').value) || 0;
 
         const totalWastedHoursPerShipment = findingDocs + reviewingLabels + fixingErrors + supplierComm + portDelaysLabor;
+        const laborCostPerShipment = totalWastedHoursPerShipment * hourlyRate;
 
         // 2. Shipment Volume & Losses
         const totalShipments = parseFloat(document.getElementById('totalShipments').value) || 0;
@@ -725,6 +772,11 @@
             return currentCurrency + Math.round(val).toLocaleString();
         };
 
+        let hoursStr = totalWastedHoursPerShipment.toFixed(1);
+        if (hoursStr.endsWith(".0")) hoursStr = hoursStr.slice(0, -2);
+
+        document.getElementById('calculatedTotalHoursPerShipment').value = hoursStr;
+        document.getElementById('calculatedLaborCostPerShipment').value = Math.round(laborCostPerShipment).toLocaleString();
         document.getElementById('calculatedPlatformCost').value = Math.round(annualPlatformCost).toLocaleString();
         document.getElementById('wastingTotal').innerText = formatCurrency(totalWastingCostYear);
         document.getElementById('savingTotal').innerText = formatCurrency(savingCostYear);
