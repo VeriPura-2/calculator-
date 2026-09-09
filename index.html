@@ -444,12 +444,20 @@
             flex: 0 1 auto;
         }
 
+        /* BULLETPROOF RIGHT ALIGNMENT FOR NET SAVINGS BLOCK */
         .result-block.small.divider {
             flex: 1 1 auto;
             border-left: 1px solid var(--border-divider);
             padding-left: 15px;
             margin-left: 15px;
-            text-align: right; /* Right align the net savings block to anchor the corner */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; /* This forces all children to the right edge */
+            text-align: right; 
+        }
+
+        .result-block.small.divider .result-value {
+            text-align: right !important; /* Force override of the left-align rule */
         }
 
         /* Protection Callout Box */
@@ -508,7 +516,11 @@
                 margin-left: 0;
                 border-top: 1px solid var(--border-divider);
                 padding-top: 12px;
-                text-align: left; /* Reset alignment on mobile */
+                align-items: flex-start; /* Reset flex alignment on mobile */
+                text-align: left; 
+            }
+            .result-block.small.divider .result-value {
+                text-align: left !important; /* Reset text alignment on mobile */
             }
             .result-value { font-size: 34px; }
         }
@@ -562,7 +574,7 @@
                     </select>
                 </div>
                 <div class="input-group">
-                    <label>Avg hourly rate <span class="info-icon" title="Average hourly loaded cost per compliance/logistics staff member">i</span></label>
+                    <label>Avg hourly rate <span class="info-icon" title="Average hourly loaded cost per compliance/logistics staff member">?</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol">$</span>
                         <input type="number" id="hourlyRate" value="50" placeholder="Rate" min="0">
@@ -574,14 +586,14 @@
             <h3 style="margin-top: 36px;">HOURS WASTED / SHIPMENT</h3>
             <div class="input-row">
                 <div class="input-group">
-                    <label>Sanitary and Lab Files <span class="info-icon" title="Chasing and verifying health certificates, sanitary declarations, and lab test reports">i</span></label>
+                    <label>Sanitary and Lab Files <span class="info-icon" title="Chasing and verifying health certificates, sanitary declarations, and lab test reports">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="findingDocs" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Label Validation <span class="info-icon" title="Reviewing ingredient lists, allergen declarations, and local food labeling rules">i</span></label>
+                    <label>Label Validation <span class="info-icon" title="Reviewing ingredient lists, allergen declarations, and local food labeling rules">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="reviewingLabels" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
@@ -591,14 +603,14 @@
             
             <div class="input-row">
                 <div class="input-group">
-                    <label>Document fixes <span class="info-icon" title="Time spent correcting non-compliant paperwork, batch codes, or origin tags">i</span></label>
+                    <label>Document fixes <span class="info-icon" title="Time spent correcting non-compliant paperwork, batch codes, or origin tags">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="fixingErrors" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>HS Code Validation <span class="info-icon" title="Verifying Harmonized System (HS) codes, product classifications, and tariff data">i</span></label>
+                    <label>HS Code Validation <span class="info-icon" title="Verifying Harmonized System (HS) codes, product classifications, and tariff data">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="hsCodeTime" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
@@ -608,7 +620,7 @@
             
             <div class="input-row">
                 <div class="input-group">
-                    <label>Customs & sanitary holds <span class="info-icon" title="Troubleshooting border port holds, re-inspections, and quarantine delays">i</span></label>
+                    <label>Customs & sanitary holds <span class="info-icon" title="Troubleshooting border port holds, re-inspections, and quarantine delays">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="portDelays" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
@@ -640,11 +652,11 @@
             <h3>SHIPMENT LOSSES & DELAYS (ANNUAL)</h3>
             <div class="input-row">
                 <div class="input-group">
-                    <label>Total shipments / year <span class="info-icon" title="Total annual volume of incoming food import shipments">i</span></label>
+                    <label>Total shipments / year <span class="info-icon" title="Total annual volume of incoming food import shipments">?</span></label>
                     <input type="number" id="totalShipments" value="100" placeholder="100" min="0">
                 </div>
                 <div class="input-group">
-                    <label>Avg shipment value <span class="info-icon" title="Financial value of an average single food shipment">i</span></label>
+                    <label>Avg shipment value <span class="info-icon" title="Financial value of an average single food shipment">?</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol">$</span>
                         <input type="number" id="shipmentValue" value="25000" placeholder="25000" min="0">
@@ -654,15 +666,15 @@
 
             <div class="input-row">
                 <div class="input-group">
-                    <label>Food / Cargo Type <span class="info-icon" title="Selecting refrigerated or fresh cargo updates port holding fees for reefer power and increases commercial spoilage loss risks">i</span></label>
+                    <label>Food / Cargo Type <span class="info-icon" title="Selecting cargo type sets suggested daily port holding fees and the daily commercial spoilage/fee rate">?</span></label>
                     <select id="foodType">
-                        <option value="500|2|Base port demurrage">Dry Goods</option>
-                        <option value="750|4|Includes +$250 reefer surcharge">Cold Chain</option>
-                        <option value="750|8|Includes +$250 reefer surcharge" selected>Perishable</option>
+                        <option value="500|0.5|Base port demurrage">Dry Goods</option>
+                        <option value="750|1.5|Includes +$250 reefer surcharge">Cold Chain</option>
+                        <option value="750|3.0|Includes +$250 reefer surcharge" selected>Perishable</option>
                     </select>
                 </div>
                 <div class="input-group">
-                    <label style="white-space: nowrap;">Port holding cost / day <span class="info-icon" id="portHoldingInfo" title="Includes +$250 reefer surcharge">i</span></label>
+                    <label style="white-space: nowrap;">Port holding cost / day <span class="info-icon" id="portHoldingInfo" title="Includes +$250 reefer surcharge">?</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol">$</span>
                         <input type="number" id="portHoldingCost" value="750" placeholder="750" min="0">
@@ -672,14 +684,14 @@
 
             <div class="input-row">
                 <div class="input-group">
-                    <label>% Shipments rejected <span class="info-icon" title="Percentage rejected entirely at border due to labeling or sanitary errors (Industry avg: 2%)">i</span></label>
+                    <label>% Shipments rejected <span class="info-icon" title="Percentage rejected entirely at border due to labeling or sanitary errors (Industry avg: 2%)">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="percentRejected" value="2" placeholder="2" min="0" max="100">
                         <span class="suffix">%</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>% Shipments delayed <span class="info-icon" title="Percentage facing port sanitary or customs holds (Industry avg: 2%)">i</span></label>
+                    <label>% Shipments delayed <span class="info-icon" title="Percentage facing port sanitary or customs holds (Industry avg: 2%)">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="percentDelayed" value="2" placeholder="2" min="0" max="100">
                         <span class="suffix">%</span>
@@ -689,16 +701,16 @@
             
             <div class="input-row">
                 <div class="input-group">
-                    <label>Avg days of delay <span class="info-icon" title="Average duration container sits held at border">i</span></label>
+                    <label>Avg days of delay <span class="info-icon" title="Average duration container sits held at border">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="daysDelayed" value="5" placeholder="5" min="0">
                         <span class="suffix">days</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label style="white-space: nowrap;">Late Fees & Spoilage % <span class="info-icon" title="Commercial losses from retailer late penalties, buyer rejections, and reduced shelf life on delayed cargo">i</span></label>
+                    <label style="white-space: nowrap;">Spoilage & Fee % / day <span class="info-icon" title="This percentage is multiplied against the total cargo value for EVERY day of delay. It accounts for compounding commercial losses like retailer late fees, reduced shelf-life, and physical spoilage.">?</span></label>
                     <div class="input-with-suffix">
-                        <input type="number" id="latePenaltyPercent" value="8" placeholder="8" min="0" max="100" step="0.5">
+                        <input type="number" id="latePenaltyPercent" value="3.0" placeholder="3.0" min="0" max="100" step="0.1">
                         <span class="suffix">%</span>
                     </div>
                 </div>
@@ -707,14 +719,14 @@
             <h3 style="margin-top: 12px;">VERIPURA PLATFORM & PARAMETERS</h3>
             <div class="input-row" style="margin-bottom: 0;">
                 <div class="input-group">
-                    <label>Validation fee <span class="info-icon" title="Compliance validation percentage charged per shipment (Fixed)">i</span></label>
+                    <label>Validation fee <span class="info-icon" title="Compliance validation percentage charged per shipment (Fixed)">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="veripuraFee" value="0.8" readonly tabindex="-1" class="locked-input">
                         <span class="suffix" style="color: var(--text-secondary);">%</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Min fee / shipment <span class="info-icon" title="Minimum transaction fee floor applied per shipment (Fixed)">i</span></label>
+                    <label>Min fee / shipment <span class="info-icon" title="Minimum transaction fee floor applied per shipment (Fixed)">?</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol" style="color: var(--text-secondary);">$</span>
                         <input type="number" id="minFeePerShipment" value="100" readonly tabindex="-1" class="locked-input">
@@ -725,7 +737,7 @@
             <!-- margin-top: auto pushes this row down to align perfectly with Column 1's bottom row -->
             <div class="input-row" style="margin-bottom: 0; margin-top: auto; padding-top: 12px;">
                 <div class="input-group">
-                    <label>Efficiency gain <span class="info-icon" title="Percentage of documented waste & documentation delays eliminated">i</span></label>
+                    <label>Efficiency gain <span class="info-icon" title="Percentage of documented waste & documentation delays eliminated">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="efficiencyGain" value="75" placeholder="75" min="0" max="100">
                         <span class="suffix">%</span>
@@ -776,7 +788,7 @@
     </div>
     
     <div class="footer-note">
-        * Estimated savings reflect workflow efficiency gains assuming Veripura eliminates the specified percentage of documented waste. Perishable & cold-chain selections automatically adjust physical port holding rates (reefer power) and commercial spoilage/late delivery penalty percentages. Platform costs apply a validation percentage subject to the minimum transaction fee floor per shipment.
+        * Estimated savings reflect workflow efficiency gains assuming Veripura eliminates the specified percentage of documented waste. Perishable & cold-chain selections automatically adjust physical port holding rates (reefer power) and accruing daily commercial spoilage/late delivery penalty percentages. Platform costs apply a validation percentage subject to the minimum transaction fee floor per shipment.
     </div>
 </div>
 
@@ -853,7 +865,7 @@
         const valParts = e.target.value.split('|');
         // Because the base value is hard-coded in USD, we must multiply it by the active exchange rate
         const suggestedRateBaseUSD = parseInt(valParts[0]); 
-        const suggestedPenalty = parseFloat(valParts[1]);
+        const suggestedPenaltyPerDay = parseFloat(valParts[1]);
         const holdingTooltipText = valParts[2];
 
         const holdingInput = document.getElementById('portHoldingCost');
@@ -862,7 +874,7 @@
 
         // Apply translated rate automatically
         holdingInput.value = Math.round(suggestedRateBaseUSD * currentRate);
-        penaltyInput.value = suggestedPenalty;
+        penaltyInput.value = suggestedPenaltyPerDay;
 
         // Update the tooltip instead of showing red helper text
         portHoldingInfo.title = holdingTooltipText;
@@ -895,7 +907,7 @@
         const percentDelayed = parseFloat(document.getElementById('percentDelayed').value) || 0;
         const daysDelayed = parseFloat(document.getElementById('daysDelayed').value) || 0;
         const portHoldingCost = parseFloat(document.getElementById('portHoldingCost').value) || 0;
-        const latePenaltyPercent = parseFloat(document.getElementById('latePenaltyPercent').value) || 0;
+        const latePenaltyPercentPerDay = parseFloat(document.getElementById('latePenaltyPercent').value) || 0;
 
         // Annual Labor Waste Cost
         const laborWastingCostYear = totalWastedHoursPerShipment * totalShipments * hourlyRate;
@@ -904,10 +916,12 @@
         const rejectedShipmentsCount = totalShipments * (percentRejected / 100);
         const rejectionLossCost = rejectedShipmentsCount * shipmentValue;
 
-        // Delay Losses: Port Holding (Physical Port Fee) + Late Fee/Spoilage Loss (Commercial Loss)
+        // Delay Losses: Physical Port Holding Cost + Daily Accruing Commercial Spoilage/Penalty Loss
         const delayedShipmentsCount = totalShipments * (percentDelayed / 100);
         const portHoldingLossCost = delayedShipmentsCount * daysDelayed * portHoldingCost;
-        const commercialLossCost = delayedShipmentsCount * shipmentValue * (latePenaltyPercent / 100);
+        
+        // Accruing commercial loss: multiplied by daysDelayed
+        const commercialLossCost = delayedShipmentsCount * shipmentValue * (latePenaltyPercentPerDay / 100) * daysDelayed;
         const delayLossCost = portHoldingLossCost + commercialLossCost;
 
         // 3. Efficiency Benefit & Grand Totals
