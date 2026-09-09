@@ -184,11 +184,13 @@
             flex-wrap: wrap;
         }
 
-        /* Compact Panel Heights */
+        /* Compact Panel Heights with Flex Column to align bottom summary rows */
         .panel {
             padding: 20px 28px;
             flex: 1;
             min-width: 310px;
+            display: flex;
+            flex-direction: column;
             transition: background-color 0.3s ease;
         }
 
@@ -569,7 +571,8 @@
                 </div>
             </div>
 
-            <div class="input-row" style="margin-bottom: 0;">
+            <!-- margin-top: auto pushes this row down to align perfectly with Column 2's bottom row -->
+            <div class="input-row" style="margin-bottom: 0; margin-top: auto; padding-top: 20px;">
                 <div class="input-group">
                     <label style="color: var(--text-primary); font-weight: 800;">Total Hours</label>
                     <div class="input-with-suffix">
@@ -674,7 +677,8 @@
                 </div>
             </div>
 
-            <div class="input-row" style="margin-bottom: 0; margin-top: 12px;">
+            <!-- margin-top: auto pushes this row down to align perfectly with Column 1's bottom row -->
+            <div class="input-row" style="margin-bottom: 0; margin-top: auto; padding-top: 12px;">
                 <div class="input-group">
                     <label>Efficiency gain <span class="info-icon" title="Percentage of documented waste & documentation delays eliminated">i</span></label>
                     <div class="input-with-suffix">
