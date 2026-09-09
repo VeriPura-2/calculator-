@@ -297,6 +297,7 @@
             box-sizing: border-box;
             outline: none;
             transition: all 0.2s ease;
+            text-align: right; /* Right-justify all numeric input values */
         }
         
         select {
@@ -306,6 +307,7 @@
             background-position: right 12px top 50%;
             background-size: 10px auto;
             cursor: pointer;
+            text-align: left; /* Keep dropdown selectors left-aligned */
         }
 
         input[type="number"]::placeholder, input[type="text"]::placeholder {
@@ -375,7 +377,7 @@
             padding-top: 6px !important;
             padding-bottom: 6px !important;
             cursor: default;
-            text-align: right; /* Right hand justifies the numbers */
+            text-align: right;
         }
 
         .highlight-prefix {
