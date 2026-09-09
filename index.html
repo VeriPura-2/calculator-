@@ -747,7 +747,7 @@
                 </div>
                 
                 <div class="result-block" style="margin-bottom: 25px;">
-                    <h4 class="saving-title">YOU CAN SAVE (<span id="efficiencyDisplay">75</span>% EFFICIENCY) *</h4>
+                    <h4 class="saving-title">YOU CAN SAVE</h4>
                     <div class="result-value green"><span id="savingTotal">$0</span> <span class="period">/ yr</span></div>
                 </div>
 
@@ -882,7 +882,6 @@
 
         // 3. Efficiency Benefit & Grand Totals
         const efficiencyGainPercent = parseFloat(document.getElementById('efficiencyGain').value) || 0;
-        document.getElementById('efficiencyDisplay').innerText = efficiencyGainPercent;
         
         const efficiencyFactor = efficiencyGainPercent / 100;
         const totalWastingCostYear = laborWastingCostYear + rejectionLossCost + delayLossCost;
