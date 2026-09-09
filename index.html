@@ -308,15 +308,16 @@
             align-items: center;
         }
 
+        /* Expanded padding-left to cleanly fit 3-character symbols like AED, CHF, R$ */
         .input-with-prefix .prefix {
             position: absolute;
-            left: 12px;
+            left: 10px;
             color: var(--text-secondary);
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
         }
 
-        .input-with-prefix input { padding-left: 28px; }
+        .input-with-prefix input { padding-left: 38px; }
 
         .input-with-suffix .suffix {
             position: absolute;
@@ -350,7 +351,7 @@
 
         .highlight-prefix {
             color: var(--text-primary) !important;
-            font-size: 18px !important;
+            font-size: 16px !important;
             font-weight: 800 !important;
         }
 
@@ -492,8 +493,20 @@
                     <label>Currency</label>
                     <select id="currencySelector">
                         <option value="$">US Dollar (USD $)</option>
-                        <option value="£">British Pound (GBP £)</option>
                         <option value="€">Euro (EUR €)</option>
+                        <option value="£">British Pound (GBP £)</option>
+                        <option value="A$">Australian Dollar (AUD A$)</option>
+                        <option value="R$">Brazilian Real (BRL R$)</option>
+                        <option value="C$">Canadian Dollar (CAD C$)</option>
+                        <option value="¥">Chinese Yuan (CNY ¥)</option>
+                        <option value="₹">Indian Rupee (INR ₹)</option>
+                        <option value="¥">Japanese Yen (JPY ¥)</option>
+                        <option value="Mex$">Mexican Peso (MXN $)</option>
+                        <option value="NZ$">New Zealand Dollar (NZD NZ$)</option>
+                        <option value="S$">Singapore Dollar (SGD S$)</option>
+                        <option value="₩">South Korean Won (KRW ₩)</option>
+                        <option value="CHF">Swiss Franc (CHF)</option>
+                        <option value="AED">UAE Dirham (AED)</option>
                     </select>
                 </div>
                 <div class="input-group">
