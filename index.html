@@ -310,16 +310,16 @@
             align-items: center;
         }
 
+        /* Expanded padding-left to cleanly fit 3-character symbols like AED, CHF, R$ */
         .input-with-prefix .prefix {
             position: absolute;
-            left: 12px;
+            left: 10px;
             color: var(--text-secondary);
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
         }
 
-        /* Lock in ample space so wide currencies never overlap */
-        .input-with-prefix input { padding-left: 55px !important; }
+        .input-with-prefix input { padding-left: 38px; }
 
         .input-with-suffix .suffix {
             position: absolute;
@@ -401,17 +401,28 @@
         .roi-payback-row {
             display: flex;
             margin-top: 5px;
+            flex-wrap: nowrap;
+        }
+
+        .roi-payback-row h4 {
+            white-space: nowrap; /* Forces titles to stay on one line */
         }
 
         .result-block.small {
-            flex: 1;
             margin-bottom: 0;
         }
 
+        /* Let the first block hug its text, giving the remaining space to the second block */
+        .result-block.small:first-child {
+            flex: 0 1 auto;
+        }
+
         .result-block.small.divider {
+            flex: 1 1 auto;
             border-left: 1px solid var(--border-divider);
             padding-left: 15px;
             margin-left: 15px;
+            text-align: right; /* Right align the net savings block to anchor the corner */
         }
 
         /* Protection Callout Box */
@@ -470,6 +481,7 @@
                 margin-left: 0;
                 border-top: 1px solid var(--border-divider);
                 padding-top: 12px;
+                text-align: left; /* Reset alignment on mobile */
             }
             .result-value { font-size: 34px; }
         }
@@ -718,7 +730,7 @@
             
             <div class="roi-payback-row">
                 <div class="result-block small">
-                    <h4 class="white-title">FIRST YR ROI</h4>
+                    <h4 class="white-title">ANNUAL ROI</h4>
                     <div class="result-value yellow"><span id="roiValue">0%</span></div>
                 </div>
                 <div class="result-block small divider">
