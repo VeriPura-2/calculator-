@@ -259,6 +259,15 @@
             justify-content: flex-end;
         }
 
+        /* Asymmetric Flex helper classes to give longer labels extra horizontal space */
+        .input-group.flex-narrow {
+            flex: 0.8;
+        }
+
+        .input-group.flex-wide {
+            flex: 1.2;
+        }
+
         /* Standardized Small-Caps Input Labels */
         label {
             font-size: 12px;
@@ -269,6 +278,7 @@
             margin-bottom: 6px;
             display: flex;
             align-items: center;
+            white-space: nowrap;
         }
 
         label.highlight-label {
@@ -522,6 +532,7 @@
 
         @media (max-width: 576px) {
             .input-row { flex-direction: column; gap: 10px; }
+            .input-group.flex-narrow, .input-group.flex-wide { flex: 1; }
             .roi-payback-row { flex-direction: column; gap: 15px; }
             .result-block.small.divider {
                 border-left: none;
@@ -643,14 +654,14 @@
 
             <!-- margin-top: auto pushes this row down to align perfectly with Column 2's bottom row -->
             <div class="input-row" style="margin-bottom: 0; margin-top: auto; padding-top: 20px;">
-                <div class="input-group">
+                <div class="input-group flex-narrow">
                     <label class="highlight-label">TOTAL HOURS</label>
                     <div class="input-with-suffix">
                         <input type="text" id="calculatedTotalHoursPerShipment" class="highlight-readonly" value="0" readonly>
                         <span class="suffix highlight-suffix">hrs</span>
                     </div>
                 </div>
-                <div class="input-group">
+                <div class="input-group flex-wide">
                     <label class="highlight-label">LABOR COST / SHIPMENT</label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol highlight-prefix">$</span>
@@ -749,14 +760,14 @@
 
             <!-- margin-top: auto pushes this row down to align perfectly with Column 1's bottom row -->
             <div class="input-row" style="margin-bottom: 0; margin-top: auto; padding-top: 12px;">
-                <div class="input-group">
+                <div class="input-group flex-narrow">
                     <label class="highlight-label">EFFICIENCY GAIN <span class="info-icon" title="Percentage of documented waste & documentation delays eliminated">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="efficiencyGain" class="highlight-input" value="75" placeholder="75" min="0" max="100">
                         <span class="suffix highlight-suffix">%</span>
                     </div>
                 </div>
-                <div class="input-group">
+                <div class="input-group flex-wide">
                     <label class="highlight-label">ANNUAL PLATFORM COST</label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol highlight-prefix">$</span>
