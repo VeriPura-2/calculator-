@@ -14,7 +14,7 @@
             --bg-panel-result: #1e1e1e;
             
             --text-primary: #ffffff;
-            --text-secondary: #888888;
+            --text-secondary: #aaaaaa;
             --text-title-white: #ffffff;
             
             --border-primary: #333333;
@@ -135,8 +135,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 800;
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -233,7 +233,7 @@
             justify-content: space-between;
         }
 
-        /* Section Headings: 16px (2px larger than 14px baseline) */
+        /* Section Headings: 16px ALL CAPS */
         h3 {
             font-size: 16px;
             font-weight: 800;
@@ -259,13 +259,22 @@
             justify-content: flex-end;
         }
 
-        /* Standard Input Labels: 14px */
+        /* Standardized Small-Caps Input Labels */
         label {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 700; 
-            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
+        }
+
+        label.highlight-label {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-primary);
         }
 
         .info-icon {
@@ -282,6 +291,7 @@
             margin-left: 6px;
             cursor: help;
             flex-shrink: 0;
+            text-transform: none; /* Keep ? character standard */
         }
 
         /* Form Inputs & Dropdowns: 14px */
@@ -367,8 +377,8 @@
             box-shadow: none !important;
         }
 
-        /* High-contrast Readonly Input Styling for Summaries: 18px */
-        .highlight-readonly {
+        /* High-contrast Input & Readonly Styling for Summaries/Highlighted Inputs: 18px */
+        .highlight-readonly, .highlight-input {
             background-color: transparent !important;
             border: 1px solid var(--border-input-focus) !important;
             color: var(--text-primary) !important;
@@ -376,8 +386,11 @@
             font-weight: 800 !important;
             padding-top: 6px !important;
             padding-bottom: 6px !important;
-            cursor: default;
             text-align: right;
+        }
+
+        .highlight-readonly {
+            cursor: default;
         }
 
         .highlight-prefix {
@@ -395,7 +408,7 @@
         /* Results Panel Styling */
         .result-block { margin-bottom: 18px; }
 
-        /* Result Headings: 16px (2px larger than 14px baseline) */
+        /* Result Headings: 16px ALL CAPS */
         h4 {
             font-size: 16px;
             font-weight: 800; 
@@ -552,7 +565,7 @@
             <h3>IMPORT DETAILS</h3>
             <div class="input-row">
                 <div class="input-group">
-                    <label>Currency</label>
+                    <label>CURRENCY</label>
                     <select id="currencySelector">
                         <!-- data-rate represents approximate value relative to 1 USD -->
                         <option value="$" data-rate="1.00">US Dollar (USD $)</option>
@@ -574,7 +587,7 @@
                     </select>
                 </div>
                 <div class="input-group">
-                    <label>Avg hourly rate <span class="info-icon" title="Average hourly loaded cost per compliance/logistics staff member">?</span></label>
+                    <label>AVG. HOURLY RATE <span class="info-icon" title="Average hourly loaded cost per compliance/logistics staff member">?</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol">$</span>
                         <input type="number" id="hourlyRate" value="50" placeholder="Rate" min="0">
@@ -586,14 +599,14 @@
             <h3 style="margin-top: 36px;">HOURS WASTED / SHIPMENT</h3>
             <div class="input-row">
                 <div class="input-group">
-                    <label>Sanitary and Lab Files <span class="info-icon" title="Chasing and verifying health certificates, sanitary declarations, and lab test reports">?</span></label>
+                    <label>SANITARY & LAB FILES <span class="info-icon" title="Chasing and verifying health certificates, sanitary declarations, and lab test reports">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="findingDocs" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Label Validation <span class="info-icon" title="Reviewing ingredient lists, allergen declarations, and local food labeling rules">?</span></label>
+                    <label>LABEL VALIDATION <span class="info-icon" title="Reviewing ingredient lists, allergen declarations, and local food labeling rules">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="reviewingLabels" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
@@ -603,14 +616,14 @@
             
             <div class="input-row">
                 <div class="input-group">
-                    <label>Document fixes <span class="info-icon" title="Time spent correcting non-compliant paperwork, batch codes, or origin tags">?</span></label>
+                    <label>DOCUMENT FIXES <span class="info-icon" title="Time spent correcting non-compliant paperwork, batch codes, or origin tags">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="fixingErrors" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>HS Code Validation <span class="info-icon" title="Verifying Harmonized System (HS) codes, product classifications, and tariff data">?</span></label>
+                    <label>HS CODE VALIDATION <span class="info-icon" title="Verifying Harmonized System (HS) codes, product classifications, and tariff data">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="hsCodeTime" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
@@ -620,7 +633,7 @@
             
             <div class="input-row">
                 <div class="input-group">
-                    <label>Customs & sanitary holds <span class="info-icon" title="Troubleshooting border port holds, re-inspections, and quarantine delays">?</span></label>
+                    <label>CUSTOMS & SANITARY HOLDS <span class="info-icon" title="Troubleshooting border port holds, re-inspections, and quarantine delays">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="portDelays" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
@@ -631,14 +644,14 @@
             <!-- margin-top: auto pushes this row down to align perfectly with Column 2's bottom row -->
             <div class="input-row" style="margin-bottom: 0; margin-top: auto; padding-top: 20px;">
                 <div class="input-group">
-                    <label style="color: var(--text-primary); font-weight: 800;">Total Hours</label>
+                    <label class="highlight-label">TOTAL HOURS</label>
                     <div class="input-with-suffix">
                         <input type="text" id="calculatedTotalHoursPerShipment" class="highlight-readonly" value="0" readonly>
                         <span class="suffix highlight-suffix">hrs</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label style="color: var(--text-primary); font-weight: 800;">Labor cost / shipment</label>
+                    <label class="highlight-label">LABOR COST / SHIPMENT</label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol highlight-prefix">$</span>
                         <input type="text" id="calculatedLaborCostPerShipment" class="highlight-readonly" value="0" readonly>
@@ -649,14 +662,14 @@
 
         <!-- COLUMN 2: Food Type, Losses & Platform -->
         <div class="panel center-col">
-            <h3>SHIPMENT LOSSES & DELAYS (ANNUAL)</h3>
+            <h3>SHIPMENT LOSSES & DELAYS</h3>
             <div class="input-row">
                 <div class="input-group">
-                    <label>Total shipments / year <span class="info-icon" title="Total annual volume of incoming food import shipments">?</span></label>
+                    <label>TOTAL SHIPMENTS / YEAR <span class="info-icon" title="Total annual volume of incoming food import shipments">?</span></label>
                     <input type="number" id="totalShipments" value="100" placeholder="100" min="0">
                 </div>
                 <div class="input-group">
-                    <label>Avg shipment value <span class="info-icon" title="Financial value of an average single food shipment">?</span></label>
+                    <label>AVG. SHIPMENT VALUE <span class="info-icon" title="Financial value of an average single food shipment">?</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol">$</span>
                         <input type="number" id="shipmentValue" value="25000" placeholder="25000" min="0">
@@ -666,7 +679,7 @@
 
             <div class="input-row">
                 <div class="input-group">
-                    <label>Food / Cargo Type <span class="info-icon" title="Selecting cargo type sets suggested daily port holding fees and the daily commercial spoilage/fee rate">?</span></label>
+                    <label>FOOD / CARGO TYPE <span class="info-icon" title="Selecting cargo type sets suggested daily port holding fees and the daily commercial spoilage/fee rate">?</span></label>
                     <select id="foodType">
                         <option value="500|0.5|Base port demurrage">Dry Goods</option>
                         <option value="750|1.5|Includes +$250 reefer surcharge">Cold Chain</option>
@@ -674,7 +687,7 @@
                     </select>
                 </div>
                 <div class="input-group">
-                    <label style="white-space: nowrap;">Port holding cost / day <span class="info-icon" id="portHoldingInfo" title="Includes +$250 reefer surcharge">?</span></label>
+                    <label style="white-space: nowrap;">PORT HOLDING COST / DAY <span class="info-icon" id="portHoldingInfo" title="Includes +$250 reefer surcharge">?</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol">$</span>
                         <input type="number" id="portHoldingCost" value="750" placeholder="750" min="0">
@@ -684,14 +697,14 @@
 
             <div class="input-row">
                 <div class="input-group">
-                    <label>% Shipments rejected <span class="info-icon" title="Percentage rejected entirely at border due to labeling or sanitary errors (Industry avg: 2%)">?</span></label>
+                    <label>% SHIPMENTS REJECTED <span class="info-icon" title="Percentage rejected entirely at border due to labeling or sanitary errors (Industry avg: 2%)">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="percentRejected" value="2" placeholder="2" min="0" max="100">
                         <span class="suffix">%</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>% Shipments delayed <span class="info-icon" title="Percentage facing port sanitary or customs holds (Industry avg: 2%)">?</span></label>
+                    <label>% SHIPMENTS DELAYED <span class="info-icon" title="Percentage facing port sanitary or customs holds (Industry avg: 2%)">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="percentDelayed" value="2" placeholder="2" min="0" max="100">
                         <span class="suffix">%</span>
@@ -701,14 +714,14 @@
             
             <div class="input-row">
                 <div class="input-group">
-                    <label>Avg days of delay <span class="info-icon" title="Average duration container sits held at border">?</span></label>
+                    <label>AVG. DAYS OF DELAY <span class="info-icon" title="Average duration container sits held at border">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="daysDelayed" value="5" placeholder="5" min="0">
                         <span class="suffix">days</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label style="white-space: nowrap;">Spoilage & Fee % / day <span class="info-icon" title="This percentage is multiplied against the total cargo value for EVERY day of delay. It accounts for compounding commercial losses like retailer late fees, reduced shelf-life, and physical spoilage.">?</span></label>
+                    <label style="white-space: nowrap;">SPOILAGE & FEE % / DAY <span class="info-icon" title="This percentage is multiplied against the total cargo value for EVERY day of delay. It accounts for compounding commercial losses like retailer late fees, reduced shelf-life, and physical spoilage.">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="latePenaltyPercent" value="3.0" placeholder="3.0" min="0" max="100" step="0.1">
                         <span class="suffix">%</span>
@@ -719,14 +732,14 @@
             <h3 style="margin-top: 12px;">VERIPURA PLATFORM & PARAMETERS</h3>
             <div class="input-row" style="margin-bottom: 0;">
                 <div class="input-group">
-                    <label>Validation fee <span class="info-icon" title="Compliance validation percentage charged per shipment (Fixed)">?</span></label>
+                    <label>VALIDATION FEE <span class="info-icon" title="Compliance validation percentage charged per shipment (Fixed)">?</span></label>
                     <div class="input-with-suffix">
                         <input type="number" id="veripuraFee" value="0.8" readonly tabindex="-1" class="locked-input">
                         <span class="suffix" style="color: var(--text-secondary);">%</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Min fee / shipment <span class="info-icon" title="Minimum transaction fee floor applied per shipment (Fixed)">?</span></label>
+                    <label>MIN. FEE / SHIPMENT <span class="info-icon" title="Minimum transaction fee floor applied per shipment (Fixed)">?</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol" style="color: var(--text-secondary);">$</span>
                         <input type="number" id="minFeePerShipment" value="100" readonly tabindex="-1" class="locked-input">
@@ -737,14 +750,14 @@
             <!-- margin-top: auto pushes this row down to align perfectly with Column 1's bottom row -->
             <div class="input-row" style="margin-bottom: 0; margin-top: auto; padding-top: 12px;">
                 <div class="input-group">
-                    <label>Efficiency gain <span class="info-icon" title="Percentage of documented waste & documentation delays eliminated">?</span></label>
+                    <label class="highlight-label">EFFICIENCY GAIN <span class="info-icon" title="Percentage of documented waste & documentation delays eliminated">?</span></label>
                     <div class="input-with-suffix">
-                        <input type="number" id="efficiencyGain" value="75" placeholder="75" min="0" max="100">
-                        <span class="suffix">%</span>
+                        <input type="number" id="efficiencyGain" class="highlight-input" value="75" placeholder="75" min="0" max="100">
+                        <span class="suffix highlight-suffix">%</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label style="color: var(--text-primary); font-weight: 800;">Annual Platform Cost</label>
+                    <label class="highlight-label">ANNUAL PLATFORM COST</label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol highlight-prefix">$</span>
                         <input type="text" id="calculatedPlatformCost" class="highlight-readonly" value="0" readonly>
