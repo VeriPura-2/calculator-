@@ -441,10 +441,10 @@
                     </select>
                 </div>
                 <div class="input-group">
-                    <label>Avg hourly rate <span class="info-icon" title="Average hourly loaded cost (including benefits) per employee">i</span></label>
+                    <label>Avg hourly rate <span class="info-icon" title="Average hourly loaded cost per employee">i</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol">$</span>
-                        <input type="number" id="hourlyRate" placeholder="Rate" min="0">
+                        <input type="number" id="hourlyRate" value="50" placeholder="Rate" min="0">
                     </div>
                 </div>
             </div>
@@ -452,16 +452,16 @@
             <h3 style="margin-top: 20px;">HOURS WASTED / SHIPMENT</h3>
             <div class="input-row">
                 <div class="input-group">
-                    <label>Finding documents <span class="info-icon" title="Time spent searching emails, folders, and drives for current documents per shipment">i</span></label>
+                    <label>Finding documents <span class="info-icon" title="Time spent searching emails and drives per shipment">i</span></label>
                     <div class="input-with-suffix">
-                        <input type="number" id="findingDocs" placeholder="Hours" min="0" step="0.1">
+                        <input type="number" id="findingDocs" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Reviewing labels <span class="info-icon" title="Time spent manually cross-referencing and reviewing label accuracy per shipment">i</span></label>
+                    <label>Reviewing labels <span class="info-icon" title="Time spent manually cross-referencing labels per shipment">i</span></label>
                     <div class="input-with-suffix">
-                        <input type="number" id="reviewingLabels" placeholder="Hours" min="0" step="0.1">
+                        <input type="number" id="reviewingLabels" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
                     </div>
                 </div>
@@ -469,16 +469,16 @@
             
             <div class="input-row">
                 <div class="input-group">
-                    <label>Correcting errors <span class="info-icon" title="Time wasted fixing non-compliant paperwork or documentation mistakes per shipment">i</span></label>
+                    <label>Correcting errors <span class="info-icon" title="Time wasted fixing documentation mistakes per shipment">i</span></label>
                     <div class="input-with-suffix">
-                        <input type="number" id="fixingErrors" placeholder="Hours" min="0" step="0.1">
+                        <input type="number" id="fixingErrors" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Supplier comms <span class="info-icon" title="Time spent requesting missing documents and managing vendor files per shipment">i</span></label>
+                    <label>Supplier comms <span class="info-icon" title="Time spent requesting missing vendor files per shipment">i</span></label>
                     <div class="input-with-suffix">
-                        <input type="number" id="supplierComm" placeholder="Hours" min="0" step="0.1">
+                        <input type="number" id="supplierComm" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
                     </div>
                 </div>
@@ -486,9 +486,9 @@
             
             <div class="input-row" style="margin-bottom: 0;">
                 <div class="input-group">
-                    <label>Troubleshooting delays <span class="info-icon" title="Time wasted clearing up holds, rejections, and customs confusion per shipment">i</span></label>
+                    <label>Troubleshooting delays <span class="info-icon" title="Time wasted clearing up port holds and rejections per shipment">i</span></label>
                     <div class="input-with-suffix">
-                        <input type="number" id="portDelays" placeholder="Hours" min="0" step="0.1">
+                        <input type="number" id="portDelays" value="1" placeholder="Hours" min="0" step="0.1">
                         <span class="suffix">hrs</span>
                     </div>
                 </div>
@@ -501,29 +501,29 @@
             <div class="input-row">
                 <div class="input-group">
                     <label>Total shipments / year <span class="info-icon" title="Total annual volume of incoming shipments">i</span></label>
-                    <input type="number" id="totalShipments" placeholder="Total shipments" min="0">
+                    <input type="number" id="totalShipments" value="100" placeholder="100" min="0">
                 </div>
                 <div class="input-group">
-                    <label>Avg shipment value <span class="info-icon" title="The total financial value of an average single shipment">i</span></label>
+                    <label>Avg shipment value <span class="info-icon" title="Financial value of an average single shipment">i</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol">$</span>
-                        <input type="number" id="shipmentValue" placeholder="Value" min="0">
+                        <input type="number" id="shipmentValue" value="10000" placeholder="10000" min="0">
                     </div>
                 </div>
             </div>
             
             <div class="input-row">
                 <div class="input-group">
-                    <label>% Shipments rejected <span class="info-icon" title="Percentage of shipments rejected entirely at the port (Industry avg: 2%)">i</span></label>
+                    <label>% Shipments rejected <span class="info-icon" title="Percentage rejected entirely at port (Industry avg: 2%)">i</span></label>
                     <div class="input-with-suffix">
-                        <input type="number" id="percentRejected" placeholder="2" value="2" min="0" max="100">
+                        <input type="number" id="percentRejected" value="2" placeholder="2" min="0" max="100">
                         <span class="suffix">%</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>% Shipments delayed <span class="info-icon" title="Percentage of shipments that face port holds and delays (Industry avg: 2%)">i</span></label>
+                    <label>% Shipments delayed <span class="info-icon" title="Percentage facing port holds and delays (Industry avg: 2%)">i</span></label>
                     <div class="input-with-suffix">
-                        <input type="number" id="percentDelayed" placeholder="2" value="2" min="0" max="100">
+                        <input type="number" id="percentDelayed" value="2" placeholder="2" min="0" max="100">
                         <span class="suffix">%</span>
                     </div>
                 </div>
@@ -531,27 +531,44 @@
             
             <div class="input-row">
                 <div class="input-group">
-                    <label>Avg days of delay <span class="info-icon" title="When delayed, how many days does the shipment sit at the port on average?">i</span></label>
+                    <label>Avg days of delay <span class="info-icon" title="Average hold duration when a shipment is delayed">i</span></label>
                     <div class="input-with-suffix">
-                        <input type="number" id="daysDelayed" placeholder="Days" min="0">
+                        <input type="number" id="daysDelayed" value="5" placeholder="5" min="0">
                         <span class="suffix">days</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label style="white-space: nowrap;">Port holding cost / day <span class="info-icon" title="Average demurrage or holding cost incurred per day when a shipment is delayed">i</span></label>
+                    <label style="white-space: nowrap;">Port holding cost / day <span class="info-icon" title="Average demurrage cost incurred per delay day">i</span></label>
                     <div class="input-with-prefix">
                         <span class="prefix currency-symbol">$</span>
-                        <input type="number" id="portHoldingCost" placeholder="Cost" min="0">
+                        <input type="number" id="portHoldingCost" value="500" placeholder="500" min="0">
                     </div>
                 </div>
             </div>
             
-            <h3 style="margin-top: 30px;">VERIPURA PLATFORM</h3>
+            <h3 style="margin-top: 30px;">VERIPURA PLATFORM & PARAMETERS</h3>
             <div class="input-row">
                 <div class="input-group">
-                    <label>Validation fee <span class="info-icon" title="Standard compliance fee is 0.8% of shipment value, subject to a minimum transaction floor of 200 per shipment">i</span></label>
+                    <label>Validation fee <span class="info-icon" title="Compliance validation percentage charged per shipment">i</span></label>
                     <div class="input-with-suffix">
-                        <input type="number" id="veripuraFee" placeholder="0.8" value="0.8" min="0" max="100" step="0.1">
+                        <input type="number" id="veripuraFee" value="0.8" placeholder="0.8" min="0" max="100" step="0.1">
+                        <span class="suffix">%</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Min fee / shipment <span class="info-icon" title="Minimum transaction fee floor applied per shipment">i</span></label>
+                    <div class="input-with-prefix">
+                        <span class="prefix currency-symbol">$</span>
+                        <input type="number" id="minFeePerShipment" value="200" placeholder="200" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Efficiency gain <span class="info-icon" title="Percentage of documented waste eliminated by Veripura">i</span></label>
+                    <div class="input-with-suffix">
+                        <input type="number" id="efficiencyGain" value="85" placeholder="85" min="0" max="100">
                         <span class="suffix">%</span>
                     </div>
                 </div>
@@ -573,7 +590,7 @@
             </div>
             
             <div class="result-block">
-                <h4 class="saving-title">YOU CAN SAVE *</h4>
+                <h4 class="saving-title">YOU CAN SAVE (<span id="efficiencyDisplay">85</span>% EFFICIENCY) *</h4>
                 <div class="result-value green"><span id="savingTotal">$0</span> <span class="period">/ yr</span></div>
             </div>
             
@@ -583,8 +600,8 @@
                     <div class="result-value yellow"><span id="roiValue">0%</span></div>
                 </div>
                 <div class="result-block small divider">
-                    <h4 class="white-title">PAYBACK</h4>
-                    <div class="result-value white"><span id="paybackValue">0 mo</span></div>
+                    <h4 class="white-title">NET SAVINGS / SHIPMENT</h4>
+                    <div class="result-value white"><span id="netPerShipmentValue">$0</span></div>
                 </div>
             </div>
         </div>
@@ -592,7 +609,7 @@
     </div>
     
     <div class="footer-note">
-        * Estimated savings reflect baseline efficiency gains assuming Veripura eliminates 85% of documented wasted time and related shipment losses. ROI and Payback calculations reflect a pay-as-you-go transactional validation fee of 0.8% (with a minimum floor of 200 per shipment). For a custom calculation tailored to your specific workflow, book a demo with our sales team.
+        * Estimated savings reflect workflow efficiency gains assuming Veripura eliminates the specified percentage of documented waste. Platform costs apply a validation percentage subject to the minimum transaction fee floor per shipment. For a custom calculation tailored to your specific workflow, book a demo with our sales team.
     </div>
 </div>
 
@@ -630,8 +647,6 @@
     });
 
     // --- CALCULATOR LOGIC ---
-    const EFFICIENCY_FACTOR = 0.85; 
-    const MIN_FEE_PER_SHIPMENT = 200;
     let currentCurrency = '$'; 
 
     document.getElementById('currencySelector').addEventListener('change', function(e) {
@@ -671,31 +686,38 @@
         const delayedShipmentsCount = totalShipments * (percentDelayed / 100);
         const delayLossCost = delayedShipmentsCount * daysDelayed * portHoldingCost;
 
-        // 3. Grand Totals for Wasted/Saved
+        // 3. Efficiency Benefit & Grand Totals
+        const efficiencyGainPercent = parseFloat(document.getElementById('efficiencyGain').value) || 0;
+        document.getElementById('efficiencyDisplay').innerText = efficiencyGainPercent;
+        
+        const efficiencyFactor = efficiencyGainPercent / 100;
         const totalWastingCostYear = laborWastingCostYear + rejectionLossCost + delayLossCost;
-        const savingCostYear = totalWastingCostYear * EFFICIENCY_FACTOR;
+        const savingCostYear = totalWastingCostYear * efficiencyFactor;
 
         // 4. Platform Cost Calculation with Minimum Fee Floor per shipment
         const veripuraFeePercentage = parseFloat(document.getElementById('veripuraFee').value) || 0;
+        const minFeePerShipment = parseFloat(document.getElementById('minFeePerShipment').value) || 0;
         
         let annualPlatformCost = 0;
         if (totalShipments > 0) {
             const rawFeePerShipment = shipmentValue * (veripuraFeePercentage / 100);
-            const effectiveFeePerShipment = Math.max(MIN_FEE_PER_SHIPMENT, rawFeePerShipment);
+            const effectiveFeePerShipment = Math.max(minFeePerShipment, rawFeePerShipment);
             annualPlatformCost = totalShipments * effectiveFeePerShipment;
         }
 
-        // 5. First-Year ROI & Payback Calculations
+        // 5. ROI & Net Savings Per Shipment
         let roiDisplay = "0%";
-        let paybackDisplay = "0 mo";
+        let netSavingsPerShipment = 0;
 
         if (annualPlatformCost > 0) {
             const roi = ((savingCostYear - annualPlatformCost) / annualPlatformCost) * 100;
             roiDisplay = Math.round(roi).toLocaleString() + "%";
-            paybackDisplay = savingCostYear > annualPlatformCost ? "Immediate" : "N/A";
         } else if (savingCostYear > 0) {
             roiDisplay = "N/A";
-            paybackDisplay = "Immediate";
+        }
+
+        if (totalShipments > 0) {
+            netSavingsPerShipment = (savingCostYear - annualPlatformCost) / totalShipments;
         }
 
         // Output Formatting
@@ -707,7 +729,7 @@
         document.getElementById('wastingTotal').innerText = formatCurrency(totalWastingCostYear);
         document.getElementById('savingTotal').innerText = formatCurrency(savingCostYear);
         document.getElementById('roiValue').innerText = roiDisplay;
-        document.getElementById('paybackValue').innerText = paybackDisplay;
+        document.getElementById('netPerShipmentValue').innerText = formatCurrency(netSavingsPerShipment);
     }
 
     // Initialization
